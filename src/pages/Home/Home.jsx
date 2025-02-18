@@ -72,30 +72,35 @@ export default function Home() {
             subtitle: 'por R$ 60,00',
             moreinfo: '+ 180 Canais Gratuitos',
             link: "/",
+            colorIcon: '#ec3434',
         },
         {
             title: '200 MEGA',
             subtitle: 'por R$ 69,90',
             moreinfo: '+ 180 Canais Gratuitos',
             link: "/",
+            colorIcon: '#fbcc2e',
         },
         {
             title: '400 MEGA',
             subtitle: 'por R$ 95,00',
             moreinfo: '+ 180 Canais Gratuitos',
             link: "/",
+            colorIcon: '#2caccc',
         },
         {
             title: '500 MEGA',
             subtitle: 'por R$ 130,00',
             moreinfo: '+ 180 Canais Gratuitos',
             link: "/",
+            colorIcon: '#042c64',
         },
         {
             title: '1 GIGA',
             subtitle: 'CONSULTE',
             moreinfo: 'Sujeito a consulta com nosso atendimento',
             link: "/",
+            colorIcon: '#343434',
         },
     ]
 
@@ -171,10 +176,10 @@ export default function Home() {
                                     return (
                                         <div className="card-plano" key={i}>
                                             <div className="campo-icon-plano">
-                                                <IoIosGlobe size={50} color="#072d6c" />
+                                                <IoIosGlobe size={50} color={item.colorIcon} />
                                             </div>
                                             <div className="campo-descricao">
-                                                <h1>{item.title}</h1>
+                                                <h1 style={{ color: item.colorIcon }}>{item.title}</h1>
                                                 <h3>{item.subtitle}</h3>
                                                 <h5>{item.moreinfo}</h5>
                                             </div>
