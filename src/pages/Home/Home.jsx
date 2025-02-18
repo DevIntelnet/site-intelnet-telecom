@@ -8,9 +8,37 @@ import { IoIosGlobe } from "react-icons/io";
 import { TbCircleArrowUpRightFilled } from "react-icons/tb";
 import { FaArrowRight } from "react-icons/fa6";
 import { FaArrowLeft } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
 
 export default function Home() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [username, setUsername] = useState("70246283408");
+    const [senha, setSenha] = useState("926284952");
+    const navigate = useNavigate();
+    const [loginMessage, setLoginMessage] = useState("");
+
+    async function handleLogin(e) {
+        e.preventDefault();
+        setLoginMessage("");
+
+        try {
+            const response = await api.post("/api/login", { username, senha });
+
+            if (response.data.error === 0) {
+                localStorage.setItem("token", response.data.token);
+                navigate("/area-cliente");
+            } else {
+                setLoginMessage(response.data.message || "Usuário ou senha inválidos");
+            }
+        } catch (error) {
+            if (error.response) {
+                setLoginMessage(error.response.data.message || "Erro ao fazer login.");
+            } else {
+                setLoginMessage("Erro ao fazer login. Tente novamente.");
+            }
+        }
+    }
 
     const links = [
         {
@@ -174,7 +202,28 @@ export default function Home() {
         {
             title: 'Área do Cliente',
             link: "/",
-            content: "",
+            content: (
+                <div className="area-cliente">
+                    <h1>Área do Cliente</h1>
+                    <form className="login-form" onSubmit={handleLogin}>
+                        <input
+                            type="text"
+                            placeholder="Usuário"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <input
+                            type="password"
+                            placeholder="Senha"
+                            value={senha}
+                            onChange={(e) => setSenha(e.target.value)}
+                        />
+                        <button type="submit">Entrar</button>
+
+                        {loginMessage && <p>{loginMessage}</p>}
+                    </form>
+                </div>
+            ),
         },
     ]
 
