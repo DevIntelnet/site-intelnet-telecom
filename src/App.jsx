@@ -6,38 +6,6 @@ import Home from './pages/Home/Home';
 
 function App() {
 
-  // function Home() {
-
-  //   async function rotaTeste() {
-
-  //     // var dados = {};
-
-  //     try {
-  //       const response = await api.get('/teste')
-
-  //       if (response) {
-          
-  //         console.log(response.data);
-  //       }
-
-  //     } catch (error) {
-
-  //       console.log(error);
-  //     }
-  //   }
-
-  //   useEffect(() => {
-
-  //     rotaTeste();
-
-  //   }, []);
-
-  //   return (<>
-  //     <h1>Bem-vindo à Home</h1>
-  //   </>
-  //   );
-  // }
-
   function About() {
     return (<>
       <h1>Sobre Nós</h1>

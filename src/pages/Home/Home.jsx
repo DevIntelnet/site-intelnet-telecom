@@ -1,7 +1,7 @@
 // import React, { useState } from 'react';
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import "./home.css";
-import { FaStar } from "react-icons/fa";
+import { FaBars, FaStar, FaTimes } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { IoIosGlobe } from "react-icons/io";
@@ -10,10 +10,11 @@ import { FaArrowRight } from "react-icons/fa6";
 import { FaArrowLeft } from "react-icons/fa6";
 
 export default function Home() {
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const links = [
         {
-            title: 'Home',
+            title: 'Início',
             link: "/",
         },
         {
@@ -183,14 +184,22 @@ export default function Home() {
                 <a href="/" className="logo-intel">
                     <img src="/src/assets/logo_new.png" alt="Logo Intelnet" />
                 </a>
-                <nav>
-                    {links.map((item, i) => {
-                        return (
-                            <a key={i} href={"#section" + i}>{item.title}</a>
-                        )
-                    })}
+
+                {/* Botão de menu hambúrguer (aparece só no mobile) */}
+                <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+                    {menuOpen ? <FaTimes size={27} /> : <FaBars size={27} />}
+                </button>
+
+                {/* Menu de navegação */}
+                <nav className={`menu ${menuOpen ? "open" : ""}`}>
+                    {links.map((item, i) => (
+                        <a key={i} href={"#section" + i} onClick={() => setMenuOpen(false)}>
+                            {item.title}
+                        </a>
+                    ))}
                 </nav>
             </div>
+
             <div className="conteudo">
                 {informacoes.map((item, i) => {
                     return (
