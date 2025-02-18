@@ -1,0 +1,344 @@
+.area-cliente-pagina-interna {
+    width: 100%;
+    min-height: 100vh;
+    /* Modificado para min-height */
+    padding-top: 70px;
+    /* Ajuste o valor conforme a altura do seu header */
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+h2 {
+    font-size: 20px;
+    margin-top: 20px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+    color: #007bff;
+}
+
+.plano-card,
+.os-card {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.plano-card h3,
+.os-card h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.plano-card p,
+.os-card p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.logout-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.logout-btn:hover {
+    background: #c82333;
+}
+
+/* NOVO */
+.cabecalho-area-cliente {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    background-color: #efefef;
+    padding: 15px 25px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    z-index: 999;
+    height: 70px;
+}
+
+.area-cliente-pagina-interna .cabecalho-area-cliente nav a:link,
+.area-cliente-pagina-interna .cabecalho-area-cliente nav a:visited {
+    padding: 11px;
+    margin: 0 5px;
+    text-decoration: none;
+    color: #072d6c;
+    font-weight: bold;
+    border-bottom: solid 3px #efefef;
+}
+
+.area-cliente-pagina-interna .cabecalho-area-cliente nav a:hover,
+.area-cliente-pagina-interna .cabecalho-area-cliente nav a:active {
+    border-bottom: solid 3px #072d6c;
+}
+
+.area-cliente-pagina-interna .nome {
+    font-size: 18px;
+    /* Ajuste conforme necessário */
+    font-weight: bold;
+    color: #072d6c;
+    /* Mesma cor utilizada nas opções de navegação */
+    margin: 0;
+    padding: 0;
+}
+
+.links {
+    display: flex;
+    gap: 20px;
+}
+
+.links a {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    padding: 8px;
+    transition: background 0.3s ease;
+}
+
+.links a:hover {
+    background-color: #f1f1f1;
+}
+
+.menu-toggle {
+    display: none;
+}
+
+.planos-section {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+.planos-titulo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #072d6c;
+    /* Cor do título */
+    margin-bottom: 20px;
+}
+
+.planos-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.plano-card-inicio {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: calc(50% - 16px);
+    /* Dois cards por linha */
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+    position: relative;
+}
+
+.plano-card-inicio:hover {
+    transform: translateY(-5px);
+}
+
+.plano-card-inicio::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    /* Largura da linha azul */
+    background-color: #007bff;
+    /* Cor azul */
+    border-top-left-radius: 10px;
+    /* Para arredondar a parte superior esquerda */
+    border-bottom-left-radius: 10px;
+    /* Para arredondar a parte inferior esquerda */
+}
+
+.plano-nome {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.plano-valor {
+    font-size: 1.1rem;
+    color: #28a745;
+    font-weight: bold;
+}
+
+.plano-aviso {
+    background: #28a745;
+    color: white;
+    font-size: 0.9rem;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.ordens-servico-section {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+.ordens-servico-titulo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #072d6c;
+    margin-bottom: 20px;
+}
+
+.ordens-servico-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.ordem-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: calc(50% - 16px);
+    /* Dois cards por linha */
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+    position: relative;
+}
+
+.ordem-card:hover {
+    transform: translateY(-5px);
+}
+
+.ordem-card-status {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem; /* Tamanho reduzido */
+}
+
+.status-card {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem; /* Tamanho reduzido */
+    font-weight: bold;
+}
+
+.status-card.amarelo {
+    background-color: #FFEB3B;
+    color: #333;
+}
+
+.status-card.vermelho {
+    background-color: #F44336;
+    color: white;
+}
+
+.status-card.verde {
+    background-color: #4CAF50;
+    color: white;
+}
+
+
+.ordem-card-content {
+    text-align: left;
+    font-size: 1rem;
+    color: #333;
+}
+
+.ordem-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background-color: #007bff;
+    /* Linha azul */
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .links {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.95);
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+        transform: translateY(-100%);
+        z-index: 1000;
+    }
+
+    .links.open {
+        display: flex;
+        transform: translateY(0);
+    }
+
+    .links a {
+        font-size: 22px;
+        padding: 15px 0;
+        width: 80%;
+        color: #072d6c;
+        font-weight: bold;
+        text-decoration: none !important;
+        outline: none !important;
+        border-bottom: none !important;
+    }
+
+    .menu-toggle {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 1100;
+        border: none;
+        background: none;
+        outline: none;
+        padding: 10px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .plano-card-inicio {
+        width: calc(100% - 16px);
+    }
+
+    .ordem-card {
+        width: calc(100% - 16px);  /* Apenas 1 card por linha em telas menores */
+    }
+}

@@ -32,6 +32,7 @@ export default function Home() {
 
             if (response.data.error === 0) {
                 localStorage.setItem("token", response.data.token);
+                localStorage.setItem("id_cliente", response.data.id_cliente);
                 navigate("/area-cliente");
             } else {
                 setLoginMessage(response.data.message || "Usuário ou senha inválidos");
@@ -317,7 +318,7 @@ export default function Home() {
                     )
                 })}
             </div>
-            <div>teste</div>
+            {/* <div>teste</div> */}
         </div>
     )
 }
