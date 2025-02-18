@@ -136,6 +136,8 @@ export default function Home() {
         {
             title: 'Home',
             link: "/",
+            hasBackground: true, // Define se esta seção terá background especial
+            backgroundImage: "/src/assets/plano1.jpg", // Caminho da imagem de fundo
             content:
                 <div className="home">
                     <img src="/src/assets/logo_new.png" alt="Logo Intelnet Telecom" />
@@ -156,6 +158,7 @@ export default function Home() {
         {
             title: 'Planos',
             link: "/",
+            hasBackground: false, // Sem background especial
             content:
                 <div className="planos">
                     <div className="carousel-container">
@@ -195,6 +198,7 @@ export default function Home() {
         {
             title: 'Sobre a Empresa',
             link: "/",
+            hasBackground: false, // Sem background especial
             content:
                 <div className="sobre-a-empresa">
                     <h1>Sobre a Empresa</h1>
@@ -209,6 +213,8 @@ export default function Home() {
         {
             title: 'Área do Cliente',
             link: "/",
+            hasBackground: true, // Define se esta seção terá background especial
+            backgroundImage: "/src/assets/plano2.jpg", // Caminho da imagem de fundo
             content: (
                 <div className="area-cliente">
                     <h1>Acessar meu Cadastro</h1>
@@ -240,9 +246,9 @@ export default function Home() {
                             />
                             <a href="#section3" onClick={() => setMostraSenha(!mostraSenha)}>
                                 {mostraSenha ?
-                                    <FaRegEyeSlash size={20} color="#072d6c"/>
+                                    <FaRegEyeSlash size={20} color="#072d6c" />
                                     :
-                                    <FaRegEye size={20} color="#072d6c"/>
+                                    <FaRegEye size={20} color="#072d6c" />
                                 }
                             </a>
                         </div>
@@ -289,7 +295,18 @@ export default function Home() {
             <div className="conteudo">
                 {informacoes.map((item, i) => {
                     return (
-                        <section key={i} className="section" id={"section" + i} style={{ backgroundColor: (i == 1 || i == 3) && "#efefef" }}>
+                        <section
+                            key={i}
+                            className="section"
+                            id={"section" + i}
+                            style={{
+                                // backgroundColor: (i == 1 || i == 3) && "#efefef",
+                                backgroundImage: item.hasBackground ? `url(${item.backgroundImage}) , linear-gradient(rgba(239, 239, 239, 0), rgba(239, 239, 239, 0))` : "none",
+                                backgroundSize: "cover",
+                                backgroundBlendMode: "overlay",
+                                backgroundPosition: "center",
+                            }}
+                        >
                             {item.content}
                         </section>
                     )

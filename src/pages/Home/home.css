@@ -79,17 +79,24 @@
 
 .home {
 
-    width: 60%;
+    width: 600px;
 
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    background-color: #FFF;
+
+    padding: 30px 30px;
+    border-radius: 18px;
+
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .home img {
 
-    width: 50%;
+    width: 40%;
 }
 
 .home .star-icon {
@@ -352,6 +359,7 @@
 
     color: #072d6c;
     font-size: 26px;
+    text-align: center;
     /* padding: 5px 0 15px 0; */
 }
 
@@ -518,6 +526,12 @@
 }
 
 @media (max-width: 768px) {
+
+    .home {
+
+        width: 60%;
+    }
+
     .menu {
         display: none;
         flex-direction: column;
@@ -598,6 +612,11 @@
     .home img {
 
         width: 80%;
+    }
+
+    .home .star-icon {
+
+        width: 100%;
     }
 
     .area-cliente {
