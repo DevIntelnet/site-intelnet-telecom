@@ -10,6 +10,8 @@ import { FaArrowRight } from "react-icons/fa6";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import { FaRegEye } from "react-icons/fa6";
+import { FaRegEyeSlash } from "react-icons/fa6";
 
 export default function Home() {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -17,10 +19,13 @@ export default function Home() {
     const [senha, setSenha] = useState("926284952");
     const navigate = useNavigate();
     const [loginMessage, setLoginMessage] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [mostraSenha, setMostraSenha] = useState(false);
 
     async function handleLogin(e) {
         e.preventDefault();
         setLoginMessage("");
+        setLoading(true); // Ativa o estado de carregamento
 
         try {
             const response = await api.post("/api/login", { username, senha });
@@ -37,6 +42,8 @@ export default function Home() {
             } else {
                 setLoginMessage("Erro ao fazer login. Tente novamente.");
             }
+        } finally {
+            setLoading(false); // Desativa o estado de carregamento após a requisição
         }
     }
 
@@ -169,7 +176,7 @@ export default function Home() {
                                                 <h5>{item.moreinfo}</h5>
                                             </div>
                                             <div className="campo-link">
-                                                <a href="#">
+                                                <a href="#" title="Ir para o Whatsapp">
                                                     <TbCircleArrowUpRightFilled size={45} color="#072d6c" />
                                                 </a>
                                             </div>
@@ -204,23 +211,53 @@ export default function Home() {
             link: "/",
             content: (
                 <div className="area-cliente">
-                    <h1>Área do Cliente</h1>
+                    <h1>Acessar meu Cadastro</h1>
+                    <div className="star-icon">
+                        <div className="linha-icon-star"></div>
+                        <FaStar color="#072d6c" className="icon" size={60} />
+                        <div className="linha-icon-star"></div>
+                    </div>
+                    <div className="informes">
+                        <span>Informe os dados abaixo para acessar seu cadastro.</span>
+                    </div>
                     <form className="login-form" onSubmit={handleLogin}>
-                        <input
-                            type="text"
-                            placeholder="Usuário"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                        <input
-                            type="password"
-                            placeholder="Senha"
-                            value={senha}
-                            onChange={(e) => setSenha(e.target.value)}
-                        />
-                        <button type="submit">Entrar</button>
+                        <div className="campo-input">
+                            <input
+                                type="text"
+                                placeholder="CPF ou CNPJ..."
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                disabled={loading} // Desativa o campo durante o carregamento
+                            />
+                        </div>
+                        <div className="campo-input senha">
+                            <input
+                                type={mostraSenha ? "text" : "password"}
+                                placeholder="Senha da rede wi-fi..."
+                                value={senha}
+                                onChange={(e) => setSenha(e.target.value)}
+                                disabled={loading} // Desativa o campo durante o carregamento
+                            />
+                            <a href="#section3" onClick={() => setMostraSenha(!mostraSenha)}>
+                                {mostraSenha ?
+                                    <FaRegEyeSlash size={20} color="#072d6c"/>
+                                    :
+                                    <FaRegEye size={20} color="#072d6c"/>
+                                }
+                            </a>
+                        </div>
+                        <button type="submit" disabled={loading ? true : false}>
+                            {loading ? (
+                                <span>Um momento...</span>
+                            ) : (
+                                "Entrar"
+                            )}
+                        </button>
+                        <div className="esqueci-senha">
+                            <a href="#"><small>Esqueci minha senha {">>"}</small></a>
+                        </div>
 
-                        {loginMessage && <p>{loginMessage}</p>}
+                        {loginMessage && <small><strong>{loginMessage}</strong></small>}
                     </form>
                 </div>
             ),
