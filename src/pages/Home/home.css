@@ -364,7 +364,7 @@
 }
 
 .area-cliente .informes {
-    
+
     width: 100%;
 
     display: flex;
@@ -379,13 +379,13 @@
 
     color: #373435;
     font-size: 14.5px;
-    padding: 0 5px 5px 5px;
+    padding: 0 5px 10px 5px;
 }
 
 .area-cliente .star-icon {
 
     width: 220px;
-    height: 55px;
+    height: 40px;
 
     display: flex;
     justify-content: center;
@@ -525,6 +525,67 @@
     display: none;
 }
 
+.rodape {
+
+    width: 100%;
+
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    flex-direction: row;
+
+    background-color: #efefef;
+    padding: 25px 15px;
+
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+    /* border: solid 1px #000; */
+}
+
+.rodape div {
+
+    width: 33%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    padding: 20px 0;
+}
+
+.rodape div h4 {
+
+    margin-bottom: 10px;
+}
+
+.rodape div p {
+
+    line-height: 1.4;
+    text-align: center;
+}
+
+.rodape .linha-social {
+
+    /* width: 50%; */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    background-color: #FFF;
+
+    padding: 5px 10px;
+    border-radius: 12px;
+}
+
+.rodape .linha-social a {
+
+    margin: 0 2px;
+}
+
 @media (max-width: 768px) {
 
     .home {
@@ -622,5 +683,10 @@
     .area-cliente {
 
         width: 90%;
+    }
+
+    .rodape div:not(.linha-social) {
+
+        width: 100%;
     }
 }

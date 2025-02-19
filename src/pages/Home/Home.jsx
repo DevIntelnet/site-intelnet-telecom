@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
+import { AiOutlineFacebook } from "react-icons/ai";
 
 export default function Home() {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -155,6 +156,7 @@ export default function Home() {
                     <h3>Nosso Whatsapp e Instagram</h3>
                     <h4>(84) 99181 9502 - @intelnet.telecomoficial</h4>
                     <div className="linha-social">
+                        <a href="#" title="Ir para o Facebook"><AiOutlineFacebook size={39} color="#0D61A9" /></a>
                         <a href="#" title="Ir para o Whatsapp"><FaWhatsapp size={36} color="#00B26E" /></a>
                         <a href="#" title="Ir para o Instagram"><FaInstagram size={36} color="#D84178" /></a>
                     </div>
@@ -318,7 +320,24 @@ export default function Home() {
                     )
                 })}
             </div>
-            {/* <div>teste</div> */}
+            <div className="rodape">
+                <div>
+                    <h4>LOCALIZAÇÃO</h4>
+                    <p>Av. Assid Chateaubriand,1082 <br /> São Sebastião, Nova Cruz/RN <br /> Cep: 59215-000</p>
+                </div>
+                <div>
+                    <h4>REDES SOCIAIS</h4>
+                    <div className="linha-social">
+                        <a href="#" title="Ir para o Facebook"><AiOutlineFacebook size={39} color="#0D61A9" /></a>
+                        <a href="#" title="Ir para o Whatsapp"><FaWhatsapp size={36} color="#00B26E" /></a>
+                        <a href="#" title="Ir para o Instagram"><FaInstagram size={36} color="#D84178" /></a>
+                    </div>
+                </div>
+                <div>
+                    <h4>OUTROS CANAIS</h4>
+                    <p>Email: atendimento@intelnet.com.br</p>
+                </div>
+            </div>
         </div>
     )
 }
