@@ -6,9 +6,11 @@
     /* Ajuste o valor conforme a altura do seu header */
     display: flex;
     flex-direction: column;
+
+    background-color: #f6f6f6;
 }
 
-h1 {
+/* h1 {
     font-size: 24px;
     margin-bottom: 20px;
     color: #333;
@@ -20,7 +22,7 @@ h2 {
     border-bottom: 2px solid #007bff;
     padding-bottom: 5px;
     color: #007bff;
-}
+} */
 
 .plano-card,
 .os-card {
@@ -122,19 +124,276 @@ h2 {
     display: none;
 }
 
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Planos */
+
 .planos-section {
     width: 100%;
+    /* height: 100vh; */
     padding: 20px;
-    text-align: center;
+    /* text-align: center; */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
-.planos-titulo {
-    font-size: 1.8rem;
-    font-weight: bold;
+.planos-section .planos-titulo {
+    width: 100%;
     color: #072d6c;
-    /* Cor do título */
-    margin-bottom: 20px;
+
+    text-align: left;
+    padding: 10px 15px;
 }
+
+.planos-section .planos-campo-planos {
+    width: 100%;
+    height: 200px;
+
+    padding: 10px 25px;
+
+    display: flex;
+    flex-direction: row;
+
+    overflow-x: auto;
+    /* Permitir rolagem horizontal */
+    overflow-y: hidden;
+    /* Desabilitar rolagem vertical */
+    white-space: nowrap;
+    /* Impedir quebra de linha */
+
+    scroll-behavior: smooth;
+    /* Adicionar transição suave à rolagem */
+    cursor: pointer;
+    /* Indica interatividade */
+
+    /* Esconde a barra de rolagem */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer e Edge */
+    
+    cursor: grab;
+    /* Indica interatividade */
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    /* Garante que os itens fiquem na mesma linha */
+    scroll-behavior: smooth;
+    user-select: none;
+    /* Evita seleção de texto durante o arrasto */
+}
+
+.planos-section .planos-campo-planos::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari e Edge */
+}
+
+.planos-section .planos-campo-planos .card-plano {
+    width: 300px;
+    height: 100%;
+
+    background-color: #FFF;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+    display: inline-flex;
+    /* Ajustar para inline-flex para respeitar o nowrap */
+    align-items: center;
+    flex-direction: column;
+
+    margin: 0 10px;
+    flex-shrink: 0;
+    /* Impedir que os cards diminuam de tamanho */
+}
+
+.planos-section .planos-campo-planos .card-plano .top {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    background-color: #efefef;
+
+    border-radius: 10px 10px 0 0;
+
+    padding: 10px 15px;
+    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
+}
+
+.planos-section .planos-campo-planos .card-plano .linha-text {
+
+	text-shadow: 0px 1px 4px #FFF;
+}
+
+.planos-section .planos-campo-planos .card-plano .dados-plano {
+
+    width: 100%;
+
+    padding: 10px 15px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+.planos-section .planos-campo-planos .card-plano .dados-plano h3 {
+
+    color: #373435;
+}
+
+.planos-section .planos-campo-planos .card-plano .dados-plano h5 {
+
+    color: #009D61;
+}
+
+.planos-section .planos-campo-planos .card-plano .dados-plano h4 {
+
+    color: #072d6c;
+
+    padding: 5px 0;
+}
+
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Ordens Servico */
+
+.ordens-servicos-section {
+
+    width: 100%;
+    /* height: 100vh; */
+    padding: 20px;
+    /* text-align: center; */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.ordens-servicos-section .ordens-servicos-titulo {
+
+    width: 100%;
+    color: #072d6c;
+
+    text-align: left;
+    padding: 10px 15px;
+}
+
+.ordens-servicos-section .ordens-servicos-campo-ordens-servicos {
+
+    width: 100%;
+    height: 200px;
+
+    padding: 10px 25px;
+
+    display: flex;
+    flex-direction: row;
+
+    overflow-x: auto;
+    /* Permitir rolagem horizontal */
+    overflow-y: hidden;
+    /* Desabilitar rolagem vertical */
+    white-space: nowrap;
+    /* Impedir quebra de linha */
+
+    scroll-behavior: smooth;
+    /* Adicionar transição suave à rolagem */
+    cursor: pointer;
+    /* Indica interatividade */
+
+    /* Esconde a barra de rolagem */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer e Edge */
+    
+    cursor: grab;
+    /* Indica interatividade */
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    /* Garante que os itens fiquem na mesma linha */
+    scroll-behavior: smooth;
+    user-select: none;
+    /* Evita seleção de texto durante o arrasto */
+}
+
+.ordens-servicos-section .ordens-servicos-campo-ordens-servicos::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari e Edge */
+}
+
+.ordens-servicos-section .ordens-servicos-campo-ordens-servicos .card-os {
+    width: 300px;
+    height: 100%;
+
+    background-color: #FFF;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+    display: inline-flex;
+    /* Ajustar para inline-flex para respeitar o nowrap */
+    align-items: center;
+    flex-direction: column;
+
+    margin: 0 10px;
+    flex-shrink: 0;
+    /* Impedir que os cards diminuam de tamanho */
+}
+
+.ordens-servicos-section .ordens-servicos-campo-ordens-servicos .card-os .top {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    background-color: #efefef;
+
+    border-radius: 10px 10px 0 0;
+
+    padding: 10px 15px;
+    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
+}
+
+.ordens-servicos-section .ordens-servicos-campo-ordens-servicos .card-os .linha-text {
+
+	text-shadow: 0px 1px 4px #FFF;
+}
+
+.ordens-servicos-section .ordens-servicos-campo-ordens-servicos .card-os .dados-os {
+
+    width: 100%;
+
+    padding: 10px 15px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ordens-servicos-section .ordens-servicos-campo-ordens-servicos .card-os .dados-os h3 {
+
+    color: #009D61;
+}
+
+.ordens-servicos-section .ordens-servicos-campo-ordens-servicos .card-os .dados-os h5 {
+
+    color: #373435;
+}
+
+.ordens-servicos-section .ordens-servicos-campo-ordens-servicos .card-os .dados-os h4 {
+
+    color: #072d6c;
+
+    padding: 5px 0;
+}
+
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
 
 .planos-container {
     display: flex;
@@ -197,6 +456,8 @@ h2 {
     margin-top: 10px;
 }
 
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+
 .ordens-servico-section {
     width: 100%;
     padding: 20px;
@@ -239,18 +500,25 @@ h2 {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.9rem; /* Tamanho reduzido */
+    font-size: 0.9rem;
+    /* Tamanho reduzido */
 }
 
 .status-card {
     padding: 5px 10px;
     border-radius: 5px;
-    font-size: 0.9rem; /* Tamanho reduzido */
+    font-size: 0.9rem;
+    /* Tamanho reduzido */
     font-weight: bold;
 }
 
 .status-card.amarelo {
     background-color: #FFEB3B;
+    color: #333;
+}
+
+.status-card.azul-claro {
+    background-color: #2caccc;
     color: #333;
 }
 
@@ -339,6 +607,7 @@ h2 {
     }
 
     .ordem-card {
-        width: calc(100% - 16px);  /* Apenas 1 card por linha em telas menores */
+        width: calc(100% - 16px);
+        /* Apenas 1 card por linha em telas menores */
     }
 }
