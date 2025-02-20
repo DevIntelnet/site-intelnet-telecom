@@ -6,7 +6,8 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { IoIosGlobe } from "react-icons/io";
 import { LiaCarSideSolid } from "react-icons/lia";
 import { Link } from "react-router-dom";
-
+import { MdAttachMoney } from "react-icons/md";
+import { TbCircleArrowUpRightFilled } from "react-icons/tb";
 
 export default function AreaCliente() {
     const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function AreaCliente() {
     const [error, setError] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
     const [nomeExibido, setNomeExibido] = useState("");
+    const [faturas, setFaturas] = useState([]); // Estado para armazenar os boletos
 
     const planosRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false); // Estado para controlar o arrasto
@@ -80,6 +82,38 @@ export default function AreaCliente() {
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+    const faturaRef = useRef(null);
+    const [isDraggingFat, setIsDraggingFat] = useState(false); // Estado para controlar o arrasto
+    const [startXFat, setStartXFat] = useState(0); // Posição inicial do cursor
+    const [scrollLeftFat, setScrollLeftFat] = useState(0); // Posição inicial da rolagem
+
+    const handleMouseDownFat = (event) => {
+        const container = faturaRef.current;
+        if (!container) return;
+
+        setIsDraggingFat(true); // Ativa o estado de arrasto
+        setStartXFat(event.pageX - container.offsetLeft); // Captura a posição inicial do cursor
+        setScrollLeftFat(container.scrollLeft); // Captura a posição inicial de rolagem
+    };
+
+    const handleMouseMoveFat = (event) => {
+        if (!isDraggingFat) return; // Só movimenta se estiver arrastando
+
+        const container = faturaRef.current;
+        if (!container) return;
+
+        event.preventDefault(); // Evita seleção de texto enquanto arrasta
+        const x = event.pageX - container.offsetLeft; // Posição atual do cursor
+        const walk = (x - startXFat) * 1.5; // Distância percorrida (ajuste a velocidade com o fator 1.5)
+        container.scrollLeft = scrollLeftFat - walk; // Ajusta a posição da rolagem
+    };
+
+    const handleMouseUpFat = () => {
+        setIsDraggingFat(false); // Desativa o estado de arrasto
+    };
+
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
     useEffect(() => {
         async function fetchCliente() {
             const id_cliente = localStorage.getItem("id_cliente");
@@ -128,6 +162,36 @@ export default function AreaCliente() {
         window.addEventListener("resize", atualizarNomeExibido);
 
         return () => window.removeEventListener("resize", atualizarNomeExibido);
+    }, [cliente]);
+
+    useEffect(() => {
+        async function fetchFaturas() {
+            if (!cliente) return;
+
+            const id_cliente = localStorage.getItem("id_cliente");
+            const token = localStorage.getItem("token");
+
+            if (!id_cliente || !token) return;
+
+            console.log("Token usado para fetchFaturas:", token);
+
+            try {
+                const response = await api.get(`/api/financeiro/${id_cliente}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                if (response.data.error === 0) {
+                    setFaturas(response.data.dados);
+                } else {
+                    setError("Erro ao carregar as faturas.");
+                }
+            } catch (err) {
+                console.error("Erro ao buscar faturas:", err.response ? err.response.data : err.message);
+                setError("Erro ao buscar as faturas. Tente novamente.");
+            }
+        }
+
+        fetchFaturas();
     }, [cliente]);
 
     function handleLogout() {
@@ -224,6 +288,57 @@ export default function AreaCliente() {
         }
     };
 
+    // Função para determinar o texto do status
+    const getStatusTextFatura = (item) => {
+        const hoje = new Date();
+        const regVencimento = new Date(item.reg_vencimento);
+
+        if (item.reg_baixa === 1 || item.reg_baixa === 2) {
+            return 'PAGO';
+        }
+
+        // if (item.informacoes_pos_registro) {
+        //   const status = JSON.parse(item.informacoes_pos_registro).status_boleto_registrado;
+        //   if (status) {
+        //     return status.toUpperCase();
+        //   }
+        // }
+
+        if (regVencimento < hoje) {
+            return 'VENCIDO';
+        }
+
+        return 'EM ABERTO';
+    };
+
+    // Função para determinar a cor do status
+    const getStatusColorFatura = (item) => {
+        const hoje = new Date();
+        const regVencimento = new Date(item.reg_vencimento);
+
+        if (item.reg_baixa === 1 || item.reg_baixa === 2) {
+            return '#106f42'; // Verde para pago
+        }
+
+        if (item.informacoes_pos_registro) {
+            const status = JSON.parse(item.informacoes_pos_registro).status_boleto_registrado;
+            // if (status === 'Ativo' || status === '') {
+            //   return '#ffcc29'; // Amarelo para ativo ou vazio
+            // } else 
+            if (status === 'Liquidado') {
+                return '#106f42'; // Verde para liquidado
+            } else if (status === 'Baixado') {
+                return '#00ace4'; // Azul para baixado
+            }
+        }
+
+        if (regVencimento < hoje) {
+            return '#ed3237'; // Vermelho para vencido
+        }
+
+        return '#00ace4'; // Azul padrão para em aberto
+    };
+
     return (
         <div className="area-cliente-pagina-interna">
             <div className="cabecalho-area-cliente">
@@ -243,6 +358,71 @@ export default function AreaCliente() {
                 </nav>
             </div>
 
+            <div className="faturas-section">
+                <h3 className="faturas-titulo">Minhas Faturas</h3>
+
+                <div
+                    className="faturas-campo-faturas"
+                    ref={faturaRef}
+                    onMouseDown={handleMouseDownFat}
+                    onMouseMove={handleMouseMoveFat}
+                    onMouseLeave={handleMouseUpFat} // Para finalizar o arrasto caso o cursor saia do contêiner
+                    onMouseUp={handleMouseUpFat} // Para finalizar o arrasto
+                    style={{ cursor: isDraggingFat ? "grabbing" : "grab" }} // Altera o cursor visual
+                >
+                    {faturas.length === 0 ? <h5 style={{ color: '#072d6c' }}>Nenhuma fatura encontrada.</h5> : (
+                        faturas.map((fatura, i) => {
+                            const dataVencimento = new Date(fatura.reg_vencimento);
+
+                            if (i < 8) {
+                                return (
+                                    <div
+                                        key={i}
+                                        className="card-faturas"
+                                    >
+                                        <div
+                                            className="top"
+                                            onClick={() => navigate(`/realizar-pagamento/${fatura.id}`)}
+                                            style={{ cursor: "pointer", color: "#072d6c" }} // Para indicar que é clicável
+                                            title="Ver fatura"
+                                        >
+                                            <span
+                                            // style={{ color: getColorStatus(plano.status_id) }}
+                                            // className={plano.status_id == 16 && "linha-text"}
+                                            ><strong>{fatura.mes_referencia}/{fatura.ano_referencia} - <small style={{ color: '#373435' }}>Mês referência</small></strong></span>
+                                            <TbCircleArrowUpRightFilled size={35} color="#072d6c"
+                                            />
+                                        </div>
+                                        <div className="dados-fatura">
+                                            <h5>Vencimento: {dataVencimento.toLocaleDateString('pt-BR')}</h5>
+                                            <h4>Valor - R$ {fatura.reg_valor_total ? `R$ ${fatura.reg_valor_total.toFixed(2)}` : "N/A"}</h4>
+                                        </div>
+                                        <div className="status-fatura">
+                                            {fatura.reg_baixa == 1 || fatura.reg_baixa == 2 && (
+                                                <h5 style={{
+                                                    color: '#072d6c',
+                                                    paddingBlock: 15,
+                                                    paddingInline: 15,
+                                                }}>
+                                                    Valor pago - R$ {fatura.bx_valor_pago}
+                                                </h5>
+                                            )}
+                                            <h4
+                                                style={{
+                                                    color: getStatusColorFatura(fatura),
+                                                    paddingBlock: 15,
+                                                    paddingInline: 15,
+                                                }}
+                                            >{getStatusTextFatura(fatura)}</h4>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        })
+                    )}
+                </div>
+            </div>
+
             <div className="planos-section">
                 <h3 className="planos-titulo">Meus Planos de Internet</h3>
 
@@ -253,30 +433,32 @@ export default function AreaCliente() {
                     onMouseMove={handleMouseMove}
                     onMouseLeave={handleMouseUp} // Para finalizar o arrasto caso o cursor saia do contêiner
                     onMouseUp={handleMouseUp} // Para finalizar o arrasto
-                    style={{ cursor: isDragging ? "grabbing" : "grab" }} // Altera o cursor visual
+                    style={{ cursor: isDraggingOS ? "grabbing" : "grab" }} // Altera o cursor visual
                 >
                     {cliente.plano && cliente.plano.length > 0 ? (
-                        cliente.plano.map((plano, i) => (
-                            <div className="card-plano" key={i}>
-                                <div className="top">
-                                    <small
-                                        style={{ color: getColorStatus(plano.status_id) }}
-                                        className={plano.status_id == 16 && "linha-text"}
-                                    ><strong>{getStatusText(plano.status_id)}</strong></small>
-                                    <IoIosGlobe size={35} color="#072d6c" />
-                                </div>
-                                <div className="dados-plano">
-                                    <h3>{plano.nome.toUpperCase()}</h3>
-                                    <h5>por R$ {plano.valor},00</h5>
-                                    {parseInt(plano.nome.match(/\d+/)?.[0]) >= 100 && (
-                                        <h4>+ 180 Canais Gratuitos</h4>
-                                    )}
-                                </div>
-                                <div>
+                        cliente.plano.map((plano, i) => {
+                            return (
+                                <div className="card-plano" key={i}>
+                                    <div className="top">
+                                        <small
+                                            style={{ color: getColorStatus(plano.status_id) }}
+                                            className={plano.status_id == 16 && "linha-text"}
+                                        ><strong>{getStatusText(plano.status_id)}</strong></small>
+                                        <IoIosGlobe size={35} color="#072d6c" />
+                                    </div>
+                                    <div className="dados-plano">
+                                        <h3>{plano.nome.toUpperCase()}</h3>
+                                        <h5>por R$ {plano.valor},00</h5>
+                                        {parseInt(plano.nome.match(/\d+/)?.[0]) >= 100 && (
+                                            <h4>+ 180 Canais Gratuitos</h4>
+                                        )}
+                                    </div>
+                                    <div>
 
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            )
+                        })
                     ) : (
                         <h5 style={{ color: '#072d6c' }}>Nenhum plano ativo.</h5>
                     )}
@@ -327,7 +509,23 @@ export default function AreaCliente() {
                                     </div>
                                     <div className="dados-os">
                                         <h4>Aberta em {dataCadastro.toLocaleDateString('pt-BR')}</h4>
-                                        <h5>Prevista para {dataExecucao.toLocaleDateString('pt-BR')}</h5>
+                                        {
+                                            os.status_id == 6 ?
+                                                <h5>Executada em {dataExecucao.toLocaleDateString('pt-BR')}</h5>
+                                                :
+                                                (
+                                                    os.status_id == 3 ?
+                                                        <h5>Prevista para {dataExecucao.toLocaleDateString('pt-BR')}</h5>
+                                                        :
+                                                        (os.status_id == 4 ?
+                                                            <h5>Será feita em {dataExecucao.toLocaleDateString('pt-BR')}</h5>
+                                                            :
+                                                            (os.status_id == 5 &&
+                                                                <h5>Cancelada em {dataExecucao.toLocaleDateString('pt-BR')}</h5>
+                                                            )
+                                                        )
+                                                )
+                                        }
                                     </div>
                                     <div>
 
