@@ -1,5 +1,5 @@
 // import React, { useState } from 'react';
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./home.css";
 import { FaBars, FaStar, FaTimes } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
@@ -23,6 +23,9 @@ export default function Home() {
     const [loginMessage, setLoginMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [mostraSenha, setMostraSenha] = useState(false);
+    const [pontosComerciais, setPontosComerciais] = useState([]);
+    const [selectedPonto, setSelectedPonto] = useState("");
+    const [planos, setPlanos] = useState([]);
 
     async function handleLogin(e) {
         e.preventDefault();
@@ -69,43 +72,43 @@ export default function Home() {
         },
     ];
 
-    const planos = [
-        {
-            title: '100 MEGA',
-            subtitle: 'por R$ 60,00',
-            moreinfo: '+ 180 Canais Gratuitos',
-            link: "/",
-            colorIcon: '#ec3434',
-        },
-        {
-            title: '200 MEGA',
-            subtitle: 'por R$ 69,90',
-            moreinfo: '+ 180 Canais Gratuitos',
-            link: "/",
-            colorIcon: '#fbcc2e',
-        },
-        {
-            title: '400 MEGA',
-            subtitle: 'por R$ 95,00',
-            moreinfo: '+ 180 Canais Gratuitos',
-            link: "/",
-            colorIcon: '#2caccc',
-        },
-        {
-            title: '500 MEGA',
-            subtitle: 'por R$ 130,00',
-            moreinfo: '+ 180 Canais Gratuitos',
-            link: "/",
-            colorIcon: '#042c64',
-        },
-        {
-            title: '1 GIGA',
-            subtitle: 'CONSULTE',
-            moreinfo: 'Sujeito a consulta com nosso atendimento',
-            link: "/",
-            colorIcon: '#343434',
-        },
-    ]
+    // const planos = [
+    //     {
+    //         title: '100 MEGA',
+    //         subtitle: 'por R$ 60,00',
+    //         moreinfo: '+ 180 Canais Gratuitos',
+    //         link: "/",
+    //         colorIcon: '#ec3434',
+    //     },
+    //     {
+    //         title: '200 MEGA',
+    //         subtitle: 'por R$ 69,90',
+    //         moreinfo: '+ 180 Canais Gratuitos',
+    //         link: "/",
+    //         colorIcon: '#fbcc2e',
+    //     },
+    //     {
+    //         title: '400 MEGA',
+    //         subtitle: 'por R$ 95,00',
+    //         moreinfo: '+ 180 Canais Gratuitos',
+    //         link: "/",
+    //         colorIcon: '#2caccc',
+    //     },
+    //     {
+    //         title: '500 MEGA',
+    //         subtitle: 'por R$ 130,00',
+    //         moreinfo: '+ 180 Canais Gratuitos',
+    //         link: "/",
+    //         colorIcon: '#042c64',
+    //     },
+    //     {
+    //         title: '1 GIGA',
+    //         subtitle: 'CONSULTE',
+    //         moreinfo: 'Sujeito a consulta com nosso atendimento',
+    //         link: "/",
+    //         colorIcon: '#343434',
+    //     },
+    // ]
 
     const carouselRef = useRef(null);
     const cardWidth = 300; // Largura de cada card (igual à largura definida no CSS)
@@ -138,6 +141,72 @@ export default function Home() {
             carousel.style.transition = "transform 0.5s ease-in-out";
             carousel.style.transform = "translateX(0px)";
         }, 0);
+    };
+
+    useEffect(() => {
+        async function fetchPontosComerciais() {
+            try {
+                const response = await api.get("/api/pontos-comerciais");
+                setPontosComerciais(response.data);
+            } catch (error) {
+                console.error("Erro ao buscar pontos comerciais:", error.message);
+                setPontosComerciais([]);
+            }
+        }
+
+        fetchPontosComerciais();
+    }, []);
+
+    const handleChange = (event) => {
+        const selectedId = event.target.value;
+        setSelectedPonto(selectedId);
+        onChange(selectedId); // Passa o ID selecionado para o componente pai (se necessário)
+    };
+
+    useEffect(() => {
+        if (!selectedPonto) return;
+
+        async function fetchPlanos() {
+            try {
+                const response = await api.get(`/api/pontos-comerciais/${selectedPonto}/planos`);
+
+                const definirMoreInfo = (nome) => {
+                    // Extrai o número do nome do plano (exemplo: "100 MEGA" -> 100)
+                    const match = nome.match(/\d+/);
+                    const velocidade = match ? parseInt(match[0], 10) : 0;
+                
+                    // Se a velocidade for 100 ou mais, adiciona "+ 180 Canais Gratuitos"
+                    return velocidade >= 100 ? "+ 180 Canais Gratuitos" : "";
+                };
+                
+                const planosFormatados = response.data.map((plano) => ({
+                    title: plano.nome.toUpperCase(),
+                    subtitle: `por R$ ${plano.valor.toFixed(2)}`,
+                    moreinfo: definirMoreInfo(plano.nome),
+                    link: "/",
+                    colorIcon: definirCor(plano.nome),
+                }));
+
+                setPlanos(planosFormatados);
+            } catch (error) {
+                console.error("Erro ao buscar planos:", error.message);
+                setPlanos([]);
+            }
+        }
+        fetchPlanos();
+    }, [selectedPonto]);
+
+    const handlePontoChange = (event) => {
+        setSelectedPonto(event.target.value);
+    };
+
+    const definirCor = (nome) => {
+        if (nome.includes("100 MEGA")) return "#ec3434";
+        if (nome.includes("200 MEGA")) return "#fbcc2e";
+        if (nome.includes("400 MEGA")) return "#2caccc";
+        if (nome.includes("500 MEGA")) return "#042c64";
+        if (nome.includes("1 GIGA")) return "#343434";
+        return "#000"; // Cor padrão se não encontrar
     };
 
     const informacoes = [
@@ -173,34 +242,49 @@ export default function Home() {
                 <div className="planos">
                     <div className="busca-ponto-comercial">
                         <MdLocationOn size={24} color="#042c64" />
-                        <select name="pontos-comerciais" id="">
-                            <option value="">Selecione uma localidade para vizualizar os planos disponíveis...</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
+                        <select name="pontos-comerciais" value={selectedPonto} onChange={handleChange}>
+                            <option value="">Selecione uma localidade para visualizar os planos disponíveis...</option>
+                            {pontosComerciais.map((ponto) => (
+                                <option key={ponto.id} value={ponto.id}>
+                                    {ponto.nome}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
                     <div className="planos-encontrados">
                         <div className="campo-planos-encontrados">
+                            {planos.map((item, i) => (
+                                <div key={i} className="card-planos">
+                                    <div
+                                        className="top"
+                                        style={{ cursor: "pointer", color: "#072d6c" }}
+                                        title="Contatar plano"
+                                    >
+                                        <span>
+                                            <strong>Plano</strong>
+                                        </span>
+                                        <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
+                                    </div>
+                                    <div className="campo-descricao">
+                                        <h1 style={{ color: item.colorIcon }}>{item.title}</h1>
+                                        <h3>{item.subtitle}</h3>
+                                        <h5>{item.moreinfo}</h5>
+                                    </div>
+                                    <div className="dados-plano">
+                                        <IoIosGlobe size={25} color={item.colorIcon} />
+                                        <h4>teste</h4>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* <div className="planos-encontrados">
+                        <div className="campo-planos-encontrados">
                             {planos.map((item, i) => {
                                 return (
-                                    // <div className="card-plano" key={i}>
-                                    //     <div className="campo-icon-plano">
-                                    //         <IoIosGlobe size={50} color={item.colorIcon} />
-                                    //     </div>
-                                    //     <div className="campo-descricao">
-                                    //         <h1 style={{ color: item.colorIcon }}>{item.title}</h1>
-                                    //         <h3>{item.subtitle}</h3>
-                                    //         <h5>{item.moreinfo}</h5>
-                                    //     </div>
-                                    //     <div className="campo-link">
-                                    //         <a href="#" title="Ir para o Whatsapp">
-                                    //             <TbCircleArrowUpRightFilled size={45} color="#072d6c" />
-                                    //         </a>
-                                    //     </div>
-                                    // </div>
+
 
                                     <div key={i} className="card-planos">
                                         <div
@@ -228,7 +312,7 @@ export default function Home() {
                                 );
                             })}
                         </div>
-                    </div>
+                    </div> */}
                     {/* <div className="carousel-container">
                         <button className="carousel-btn left-btn" onClick={handlePrev} title="Voltar">
                             <FaArrowLeft size={30} color="#072d6c" />
