@@ -5,6 +5,9 @@ import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import AreaCliente from "./pages/AreaCliente/AreaCliente";
 import { useEffect } from 'react';
+import PerfilCliente from './pages/Perfil/PerfilCliente';
+import FaturasCliente from './pages/Faturas/FaturasCliente';
+import RealizarPagamento from './pages/RealizarPagamento/RealizarPagamento';
 
 function App() {
   const navigate = useNavigate();
@@ -37,6 +40,9 @@ function App() {
         <Route path="/area-cliente" element={<AreaCliente />} />
         <Route path="/about" element={<About />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/meu-perfil" element={<PerfilCliente />} />
+        <Route path="/minhas-faturas" element={<FaturasCliente />} />
+        <Route path="/realizar-pagamento/:id" element={<RealizarPagamento />} />
       </Routes>
     </div>
   )

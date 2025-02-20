@@ -5,6 +5,7 @@ import api from "../../services/api";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { IoIosGlobe } from "react-icons/io";
 import { LiaCarSideSolid } from "react-icons/lia";
+import { Link } from "react-router-dom";
 
 
 export default function AreaCliente() {
@@ -141,11 +142,11 @@ export default function AreaCliente() {
     const links = [
         {
             title: 'Faturas',
-            link: "/",
+            link: "/minhas-faturas",
         },
         {
             title: 'Perfil',
-            link: "/",
+            link: "/meu-perfil",
         },
 
     ];
@@ -235,9 +236,9 @@ export default function AreaCliente() {
                 {/* Menu de navegação */}
                 <nav className={`links ${menuOpen ? "open" : ""}`}>
                     {links.map((item, i) => (
-                        <a key={i} href={"#section" + i} onClick={() => setMenuOpen(false)}>
+                        <Link key={i} to={item.link} onClick={() => setMenuOpen(false)}>
                             {item.title}
-                        </a>
+                        </Link>
                     ))}
                 </nav>
             </div>

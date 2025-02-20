@@ -1,0 +1,117 @@
+.perfil-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.perfil-card {
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Sombras mais suaves e maiores */
+    padding: 25px;
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    transition: 0.3s ease-in-out;
+    background: linear-gradient(135deg, #f0f4f8 0%, #e1e9f2 100%); /* Gradiente suave */
+}
+
+.perfil-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.perfil-avatar {
+    background: #eee;
+    border-radius: 50%;
+    padding: 10px;
+    color: #333;
+}
+
+.perfil-info {
+    text-align: left;
+}
+
+.perfil-info p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.perfil-info p strong {
+    min-width: 90px;
+    /* Define um tamanho fixo para os títulos */
+    display: inline-block;
+}
+
+.perfil-info p svg {
+    color: #333;
+}
+
+
+/* Botão de Logout */
+.logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+}
+
+.logout-button:hover {
+    background-color: #c9302c;
+}
+
+.carregando{
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    .perfil-card {
+        width: 90%;
+        padding: 12px;
+    }
+
+    .perfil-info p {
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: nowrap; /* Impede a quebra de linha */
+        justify-content: flex-start;
+        overflow: hidden; /* Evita estouro do conteúdo */
+        white-space: nowrap; /* Impede a quebra no meio das palavras */
+    }
+    
+    .perfil-info p strong {
+        min-width: 70px;
+        display: inline-block;
+        white-space: nowrap;
+    }
+    
+    .perfil-info p span {
+        white-space: nowrap; /* Mantém o texto na mesma linha */
+        overflow: hidden; /* Evita que ultrapasse o container */
+        text-overflow: ellipsis; /* Adiciona "..." caso o texto seja muito grande */
+        max-width: 100%; /* Limita o tamanho para não causar estouro */
+    }
+    
+    .logout-button {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+}

@@ -1,0 +1,25 @@
+.conteudo-faturas {
+    padding: 20px;
+}
+
+.lista-faturas {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.card-fatura {
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-fatura p {
+    margin: 5px 0;
+}
+
+.erro {
+    color: red;
+    font-weight: bold;
+}
