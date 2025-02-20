@@ -182,12 +182,13 @@ export default function AreaCliente() {
 
                 if (response.data.error === 0) {
                     setFaturas(response.data.dados);
+                    setError(null);
                 } else {
-                    setError("Erro ao carregar as faturas.");
+                    setFaturas([]);
                 }
             } catch (err) {
                 console.error("Erro ao buscar faturas:", err.response ? err.response.data : err.message);
-                setError("Erro ao buscar as faturas. Tente novamente.");
+                setFaturas([]);
             }
         }
 
@@ -366,39 +367,38 @@ export default function AreaCliente() {
                     ref={faturaRef}
                     onMouseDown={handleMouseDownFat}
                     onMouseMove={handleMouseMoveFat}
-                    onMouseLeave={handleMouseUpFat} // Para finalizar o arrasto caso o cursor saia do contêiner
-                    onMouseUp={handleMouseUpFat} // Para finalizar o arrasto
-                    style={{ cursor: isDraggingFat ? "grabbing" : "grab" }} // Altera o cursor visual
+                    onMouseLeave={handleMouseUpFat}
+                    onMouseUp={handleMouseUpFat}
+                    style={{ cursor: isDraggingFat ? "grabbing" : "grab" }}
                 >
-                    {faturas.length === 0 ? <h5 style={{ color: '#072d6c' }}>Nenhuma fatura encontrada.</h5> : (
+                    {error ? (
+                        <h5 style={{ color: '#072d6c' }}>{error}</h5> // Exibe mensagem de erro dentro da seção de faturas
+                    ) : faturas.length === 0 ? (
+                        <h5 style={{ color: '#072d6c' }}>Nenhuma fatura encontrada.</h5>
+                    ) : (
                         faturas.map((fatura, i) => {
                             const dataVencimento = new Date(fatura.reg_vencimento);
 
                             if (i < 8) {
                                 return (
-                                    <div
-                                        key={i}
-                                        className="card-faturas"
-                                    >
+                                    <div key={i} className="card-faturas">
                                         <div
                                             className="top"
                                             onClick={() => navigate(`/realizar-pagamento/${fatura.id}`)}
-                                            style={{ cursor: "pointer", color: "#072d6c" }} // Para indicar que é clicável
+                                            style={{ cursor: "pointer", color: "#072d6c" }}
                                             title="Ver fatura"
                                         >
-                                            <span
-                                            // style={{ color: getColorStatus(plano.status_id) }}
-                                            // className={plano.status_id == 16 && "linha-text"}
-                                            ><strong>{fatura.mes_referencia}/{fatura.ano_referencia} - <small style={{ color: '#373435' }}>Mês referência</small></strong></span>
-                                            <TbCircleArrowUpRightFilled size={35} color="#072d6c"
-                                            />
+                                            <span>
+                                                <strong>{fatura.mes_referencia}/{fatura.ano_referencia} - <small style={{ color: '#373435' }}>Mês referência</small></strong>
+                                            </span>
+                                            <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
                                         </div>
                                         <div className="dados-fatura">
                                             <h5>Vencimento: {dataVencimento.toLocaleDateString('pt-BR')}</h5>
                                             <h4>Valor - R$ {fatura.reg_valor_total ? `R$ ${fatura.reg_valor_total.toFixed(2)}` : "N/A"}</h4>
                                         </div>
                                         <div className="status-fatura">
-                                            {fatura.reg_baixa == 1 || fatura.reg_baixa == 2 && (
+                                            {(fatura.reg_baixa == 1 || fatura.reg_baixa == 2) && (
                                                 <h5 style={{
                                                     color: '#072d6c',
                                                     paddingBlock: 15,
@@ -416,8 +416,9 @@ export default function AreaCliente() {
                                             >{getStatusTextFatura(fatura)}</h4>
                                         </div>
                                     </div>
-                                )
+                                );
                             }
+                            return null;
                         })
                     )}
                 </div>
