@@ -160,10 +160,182 @@
     width: 100%;
 
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.planos .busca-ponto-comercial {
+
+    width: 85%;
+
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: row;
+
+    background-color: #efefefbe;
+
+    border-radius: 100px;
+    padding: 12px 18px;
+
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
+
+.planos .busca-ponto-comercial select {
+
+    width: 100%;
+    padding: 2px 10px;
+    background-color: transparent;
+    border: none;
+    color: #343434;
+    outline: none;
+    font-size: 18px;
+    font-family: 'Ubuntu';
+}
+
+.planos .planos-encontrados {
+
+    width: 100%;
+
+    padding: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.planos .planos-encontrados .campo-planos-encontrados {
+
+    width: 100%;
+    height: 200px;
+
+    padding: 10px 25px;
+
+    display: flex;
+    flex-direction: row;
+
+    overflow-x: auto;
+    /* Permitir rolagem horizontal */
+    overflow-y: hidden;
+    /* Desabilitar rolagem vertical */
+    white-space: nowrap;
+    /* Impedir quebra de linha */
+
+    scroll-behavior: smooth;
+    /* Adicionar transição suave à rolagem */
+    cursor: pointer;
+    /* Indica interatividade */
+
+    /* Esconde a barra de rolagem */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer e Edge */
+    
+    cursor: grab;
+    /* Indica interatividade */
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    /* Garante que os itens fiquem na mesma linha */
+    scroll-behavior: smooth;
+    user-select: none;
+    /* Evita seleção de texto durante o arrasto */
+}
+
+.planos .planos-encontrados .campo-planos-encontrados::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari e Edge */
+}
+
+.planos .planos-encontrados .campo-planos-encontrados .card-planos {
+    width: 300px;
+    height: 100%;
+
+    background-color: #FFF;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+    display: inline-flex;
+    /* Ajustar para inline-flex para respeitar o nowrap */
+
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+
+    margin: 0 10px;
+    flex-shrink: 0;
+    /* Impedir que os cards diminuam de tamanho */
+}
+
+.planos .planos-encontrados .campo-planos-encontrados .card-planos .top {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    background-color: #efefef;
+
+    border-radius: 10px 10px 0 0;
+
+    padding: 10px 15px;
+    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
+}
+
+.planos .planos-encontrados .campo-planos-encontrados .card-planos .campo-descricao {
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.planos .planos-encontrados .campo-planos-encontrados .card-planos .campo-descricao h1 {
+
+    text-align: center;
+}
+
+.planos .planos-encontrados .campo-planos-encontrados .card-planos .campo-descricao h3 {
+
+    text-align: center;
+    color: #373435;
+    /* padding: 6px 0; */
+}
+
+.planos .planos-encontrados .campo-planos-encontrados .card-planos .campo-descricao h5 {
+
+    text-align: center;
+    color: #009D61;
+    padding: 3px 0 0 0;
+}
+
+.planos .planos-encontrados .campo-planos-encontrados .card-planos .dados-plano {
+
+    width: 100%;
+
+    padding: 0 15px 10px 15px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* .planos .planos-encontrados {
+
+    width: 10%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+} */
 
 .carousel-container {
     position: relative;
@@ -217,16 +389,16 @@
 
 .planos .card-plano {
 
-    flex: 0 0 200px;
+    /* flex: 0 0 200px; */
     /* Largura fixa de cada card */
 
-    /* width: 200px; */
-    height: 400px;
+    width: 400px;
+    height: 200px;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
 
     background-color: #FFF;
 
@@ -250,34 +422,6 @@
     padding: 30px 0;
 
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-}
-
-.planos .card-plano .campo-descricao {
-
-    width: 100%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.planos .card-plano .campo-descricao h1 {
-
-    text-align: center;
-}
-
-.planos .card-plano .campo-descricao h3 {
-
-    text-align: center;
-    color: #373435;
-    padding: 6px 0;
-}
-
-.planos .card-plano .campo-descricao h5 {
-
-    text-align: center;
-    color: #009D61;
 }
 
 .planos .card-plano .campo-link {

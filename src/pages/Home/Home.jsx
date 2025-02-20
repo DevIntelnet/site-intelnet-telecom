@@ -13,6 +13,7 @@ import api from "../../services/api";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { AiOutlineFacebook } from "react-icons/ai";
+import { MdLocationOn } from "react-icons/md";
 
 export default function Home() {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -166,40 +167,81 @@ export default function Home() {
         {
             title: 'Planos',
             link: "/",
-            hasBackground: false, // Sem background especial
+            hasBackground: true, // Define se esta seção terá background especial
+            backgroundImage: "/src/assets/plano7.jpg", // Caminho da imagem de fundo
             content:
                 <div className="planos">
-                    <div className="carousel-container">
+                    <div className="busca-ponto-comercial">
+                        <MdLocationOn size={24} color="#042c64" />
+                        <select name="pontos-comerciais" id="">
+                            <option value="">Selecione uma localidade para vizualizar os planos disponíveis...</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+
+                    <div className="planos-encontrados">
+                        <div className="campo-planos-encontrados">
+                            {planos.map((item, i) => {
+                                return (
+                                    // <div className="card-plano" key={i}>
+                                    //     <div className="campo-icon-plano">
+                                    //         <IoIosGlobe size={50} color={item.colorIcon} />
+                                    //     </div>
+                                    //     <div className="campo-descricao">
+                                    //         <h1 style={{ color: item.colorIcon }}>{item.title}</h1>
+                                    //         <h3>{item.subtitle}</h3>
+                                    //         <h5>{item.moreinfo}</h5>
+                                    //     </div>
+                                    //     <div className="campo-link">
+                                    //         <a href="#" title="Ir para o Whatsapp">
+                                    //             <TbCircleArrowUpRightFilled size={45} color="#072d6c" />
+                                    //         </a>
+                                    //     </div>
+                                    // </div>
+
+                                    <div key={i} className="card-planos">
+                                        <div
+                                            className="top"
+                                            onClick={() => { }}
+                                            style={{ cursor: "pointer", color: "#072d6c" }}
+                                            title="Contatar plano"
+                                        >
+                                            <span>
+                                                <strong>Plano</strong>
+                                            </span>
+                                            <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
+                                        </div>
+                                        <div className="campo-descricao">
+                                            <h1 style={{ color: item.colorIcon }}>{item.title}</h1>
+                                            <h3>{item.subtitle}</h3>
+                                            <h5>{item.moreinfo}</h5>
+                                        </div>
+                                        <div className="dados-plano">
+                                            <IoIosGlobe size={25} color={item.colorIcon} />
+                                            <h4>teste</h4>
+                                        </div>
+
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                    {/* <div className="carousel-container">
                         <button className="carousel-btn left-btn" onClick={handlePrev} title="Voltar">
                             <FaArrowLeft size={30} color="#072d6c" />
                         </button>
                         <div className="carousel-wrapper">
-                            <div className="carousel" ref={carouselRef}>
-                                {planos.map((item, i) => {
-                                    return (
-                                        <div className="card-plano" key={i}>
-                                            <div className="campo-icon-plano">
-                                                <IoIosGlobe size={50} color={item.colorIcon} />
-                                            </div>
-                                            <div className="campo-descricao">
-                                                <h1 style={{ color: item.colorIcon }}>{item.title}</h1>
-                                                <h3>{item.subtitle}</h3>
-                                                <h5>{item.moreinfo}</h5>
-                                            </div>
-                                            <div className="campo-link">
-                                                <a href="#" title="Ir para o Whatsapp">
-                                                    <TbCircleArrowUpRightFilled size={45} color="#072d6c" />
-                                                </a>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
+                            <div className="carousel" ref={carouselRef}> */}
+
+                    {/* </div>
                         </div>
                         <button className="carousel-btn right-btn" onClick={handleNext} title="Avançar">
                             <FaArrowRight size={30} color="#072d6c" />
                         </button>
-                    </div>
+                    </div> */}
                 </div>
             ,
         },
