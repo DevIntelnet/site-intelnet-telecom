@@ -27,6 +27,38 @@ export default function Home() {
     const [selectedPonto, setSelectedPonto] = useState("");
     const [planos, setPlanos] = useState([]);
 
+    const planosRef = useRef(null);
+    const [isDragging, setIsDragging] = useState(false); // Estado para controlar o arrasto
+    const [startX, setStartX] = useState(0); // Posição inicial do cursor
+    const [scrollLeft, setScrollLeft] = useState(0); // Posição inicial da rolagem
+
+    const handleMouseDown = (event) => {
+        const container = planosRef.current;
+        if (!container) return;
+
+        setIsDragging(true); // Ativa o estado de arrasto
+        setStartX(event.pageX - container.offsetLeft); // Captura a posição inicial do cursor
+        setScrollLeft(container.scrollLeft); // Captura a posição inicial de rolagem
+    };
+
+    const handleMouseMove = (event) => {
+        if (!isDragging) return; // Só movimenta se estiver arrastando
+
+        const container = planosRef.current;
+        if (!container) return;
+
+        event.preventDefault(); // Evita seleção de texto enquanto arrasta
+        const x = event.pageX - container.offsetLeft; // Posição atual do cursor
+        const walk = (x - startX) * 1.5; // Distância percorrida (ajuste a velocidade com o fator 1.5)
+        container.scrollLeft = scrollLeft - walk; // Ajusta a posição da rolagem
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false); // Desativa o estado de arrasto
+    };
+
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
     async function handleLogin(e) {
         e.preventDefault();
         setLoginMessage("");
@@ -220,7 +252,15 @@ export default function Home() {
                     </div>
 
                     <div className="planos-encontrados">
-                        <div className="campo-planos-encontrados">
+                        <div
+                            className="campo-planos-encontrados"
+                            ref={planosRef}
+                            onMouseDown={handleMouseDown}
+                            onMouseMove={handleMouseMove}
+                            onMouseLeave={handleMouseUp} // Para finalizar o arrasto caso o cursor saia do contêiner
+                            onMouseUp={handleMouseUp} // Para finalizar o arrasto
+                            style={{ cursor: isDragging ? "grabbing" : "grab" }} // Altera o cursor visual
+                        >
                             {loading ? (
                                 <div className="loading">
                                     <div className="spinner"></div>
@@ -232,7 +272,7 @@ export default function Home() {
                                         <div
                                             className="top"
                                             style={{ cursor: "pointer", color: "#072d6c" }}
-                                            title="Contatar plano"
+                                            title="Contatar o suporte"
                                         >
                                             <span>
                                                 <strong>Plano</strong>
@@ -246,7 +286,7 @@ export default function Home() {
                                         </div>
                                         <div className="dados-plano">
                                             <IoIosGlobe size={25} color={item.colorIcon} />
-                                            <h4>teste</h4>
+                                            <h4>{">>"}</h4>
                                         </div>
                                     </div>
                                 ))

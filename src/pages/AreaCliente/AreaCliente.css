@@ -173,7 +173,7 @@ h2 {
     /* Firefox */
     -ms-overflow-style: none;
     /* Internet Explorer e Edge */
-    
+
     cursor: grab;
     /* Indica interatividade */
     overflow-x: auto;
@@ -258,7 +258,7 @@ h2 {
 
 .faturas-section .faturas-campo-faturas .card-faturas .status-fatura {
     width: 100%;
-    
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -277,11 +277,19 @@ h2 {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    background-image: url("/src/assets/plano7.jpg");
+    background-size: cover;
+    background-blend-mode: overlay;
+    background-position: center;
+        /* backgroundSize: "cover";
+        backgroundBlendMode: "overlay";
+        backgroundPosition: "center"; */
 }
 
 .planos-section .planos-titulo {
     width: 100%;
-    color: #072d6c;
+    color: #FFF;
 
     text-align: left;
     padding: 10px 15px;
@@ -313,7 +321,7 @@ h2 {
     /* Firefox */
     -ms-overflow-style: none;
     /* Internet Explorer e Edge */
-    
+
     cursor: grab;
     /* Indica interatividade */
     overflow-x: auto;
@@ -365,7 +373,7 @@ h2 {
 
 .planos-section .planos-campo-planos .card-plano .linha-text {
 
-	text-shadow: 0px 1px 4px #FFF;
+    text-shadow: 0px 1px 4px #FFF;
 }
 
 .planos-section .planos-campo-planos .card-plano .dados-plano {
@@ -449,7 +457,7 @@ h2 {
     /* Firefox */
     -ms-overflow-style: none;
     /* Internet Explorer e Edge */
-    
+
     cursor: grab;
     /* Indica interatividade */
     overflow-x: auto;
@@ -501,7 +509,7 @@ h2 {
 
 .ordens-servicos-section .ordens-servicos-campo-ordens-servicos .card-os .linha-text {
 
-	text-shadow: 0px 1px 4px #FFF;
+    text-shadow: 0px 1px 4px #FFF;
 }
 
 .ordens-servicos-section .ordens-servicos-campo-ordens-servicos .card-os .dados-os {
