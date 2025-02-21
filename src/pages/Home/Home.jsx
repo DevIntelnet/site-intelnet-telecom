@@ -30,7 +30,7 @@ export default function Home() {
     async function handleLogin(e) {
         e.preventDefault();
         setLoginMessage("");
-        setLoading(true); // Ativa o estado de carregamento
+        setLoading(true);
 
         try {
             const response = await api.post("/api/login", { username, senha });
@@ -72,44 +72,6 @@ export default function Home() {
         },
     ];
 
-    // const planos = [
-    //     {
-    //         title: '100 MEGA',
-    //         subtitle: 'por R$ 60,00',
-    //         moreinfo: '+ 180 Canais Gratuitos',
-    //         link: "/",
-    //         colorIcon: '#ec3434',
-    //     },
-    //     {
-    //         title: '200 MEGA',
-    //         subtitle: 'por R$ 69,90',
-    //         moreinfo: '+ 180 Canais Gratuitos',
-    //         link: "/",
-    //         colorIcon: '#fbcc2e',
-    //     },
-    //     {
-    //         title: '400 MEGA',
-    //         subtitle: 'por R$ 95,00',
-    //         moreinfo: '+ 180 Canais Gratuitos',
-    //         link: "/",
-    //         colorIcon: '#2caccc',
-    //     },
-    //     {
-    //         title: '500 MEGA',
-    //         subtitle: 'por R$ 130,00',
-    //         moreinfo: '+ 180 Canais Gratuitos',
-    //         link: "/",
-    //         colorIcon: '#042c64',
-    //     },
-    //     {
-    //         title: '1 GIGA',
-    //         subtitle: 'CONSULTE',
-    //         moreinfo: 'Sujeito a consulta com nosso atendimento',
-    //         link: "/",
-    //         colorIcon: '#343434',
-    //     },
-    // ]
-
     const carouselRef = useRef(null);
     const cardWidth = 300; // Largura de cada card (igual à largura definida no CSS)
 
@@ -146,11 +108,14 @@ export default function Home() {
     useEffect(() => {
         async function fetchPontosComerciais() {
             try {
+                setLoading(true);
                 const response = await api.get("/api/pontos-comerciais");
                 setPontosComerciais(response.data);
             } catch (error) {
                 console.error("Erro ao buscar pontos comerciais:", error.message);
                 setPontosComerciais([]);
+            } finally {
+                setLoading(false);
             }
         }
 
@@ -168,17 +133,16 @@ export default function Home() {
 
         async function fetchPlanos() {
             try {
+                setLoading(true);
+
                 const response = await api.get(`/api/pontos-comerciais/${selectedPonto}/planos`);
 
                 const definirMoreInfo = (nome) => {
-                    // Extrai o número do nome do plano (exemplo: "100 MEGA" -> 100)
                     const match = nome.match(/\d+/);
                     const velocidade = match ? parseInt(match[0], 10) : 0;
-                
-                    // Se a velocidade for 100 ou mais, adiciona "+ 180 Canais Gratuitos"
                     return velocidade >= 100 ? "+ 180 Canais Gratuitos" : "";
                 };
-                
+
                 const planosFormatados = response.data.map((plano) => ({
                     title: plano.nome.toUpperCase(),
                     subtitle: `por R$ ${plano.valor.toFixed(2)}`,
@@ -191,8 +155,11 @@ export default function Home() {
             } catch (error) {
                 console.error("Erro ao buscar planos:", error.message);
                 setPlanos([]);
+            } finally {
+                setLoading(false);
             }
         }
+
         fetchPlanos();
     }, [selectedPonto]);
 
@@ -254,29 +221,36 @@ export default function Home() {
 
                     <div className="planos-encontrados">
                         <div className="campo-planos-encontrados">
-                            {planos.map((item, i) => (
-                                <div key={i} className="card-planos">
-                                    <div
-                                        className="top"
-                                        style={{ cursor: "pointer", color: "#072d6c" }}
-                                        title="Contatar plano"
-                                    >
-                                        <span>
-                                            <strong>Plano</strong>
-                                        </span>
-                                        <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
-                                    </div>
-                                    <div className="campo-descricao">
-                                        <h1 style={{ color: item.colorIcon }}>{item.title}</h1>
-                                        <h3>{item.subtitle}</h3>
-                                        <h5>{item.moreinfo}</h5>
-                                    </div>
-                                    <div className="dados-plano">
-                                        <IoIosGlobe size={25} color={item.colorIcon} />
-                                        <h4>teste</h4>
-                                    </div>
+                            {loading ? (
+                                <div className="loading">
+                                    <div className="spinner"></div>
+                                    <span>Carregando planos...</span>
                                 </div>
-                            ))}
+                            ) : (
+                                planos.map((item, i) => (
+                                    <div key={i} className="card-planos">
+                                        <div
+                                            className="top"
+                                            style={{ cursor: "pointer", color: "#072d6c" }}
+                                            title="Contatar plano"
+                                        >
+                                            <span>
+                                                <strong>Plano</strong>
+                                            </span>
+                                            <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
+                                        </div>
+                                        <div className="campo-descricao">
+                                            <h1 style={{ color: item.colorIcon }}>{item.title}</h1>
+                                            <h3>{item.subtitle}</h3>
+                                            <h5>{item.moreinfo}</h5>
+                                        </div>
+                                        <div className="dados-plano">
+                                            <IoIosGlobe size={25} color={item.colorIcon} />
+                                            <h4>teste</h4>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
                         </div>
                     </div>
 
