@@ -180,6 +180,8 @@
     padding: 12px 18px;
 
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    margin: 10px 0;
 }
 
 .planos .busca-ponto-comercial select {
@@ -209,7 +211,7 @@
 .planos .planos-encontrados .campo-planos-encontrados {
 
     width: 100%;
-    height: 200px;
+    /* height: 200px; */
 
     padding: 10px 25px;
 
@@ -293,6 +295,8 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    padding: 15px 0;
 }
 
 .planos .planos-encontrados .campo-planos-encontrados .card-planos .campo-descricao h1 {
@@ -327,15 +331,15 @@
     align-items: center;
 }
 
-/* .planos .planos-encontrados {
+.planos .planos-encontrados .campo-planos-encontrados .card-planos .mais-detalhes {
 
-    width: 10%;
+    width: 100%;
+}
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-} */
+.planos .planos-encontrados .campo-planos-encontrados .card-planos .mais-detalhes small {
+
+    word-break: break-all;
+}
 
 .carousel-container {
     position: relative;
@@ -863,4 +867,48 @@
     to {
         transform: rotate(360deg);
     }
+}
+
+.modal-detalhes-plano {
+
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.modal-detalhes-plano h4 {
+
+    color: #072d6c;
+
+    padding: 10px 0;
+}
+
+.modal-detalhes-plano h3 {
+
+    color: #373435;
+
+    padding: 8px 0;
+}
+
+.modal-detalhes-plano h5 {
+
+    color: #009D61;
+}
+
+.modal-detalhes-plano small {
+
+    width: 85%;
+
+    color: #072d6c;
+    padding: 15px 0;
+}
+
+.modal-detalhes-plano .icons-redirect {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
 }

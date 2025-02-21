@@ -14,6 +14,10 @@ import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { AiOutlineFacebook } from "react-icons/ai";
 import { MdLocationOn } from "react-icons/md";
+import { FaAngleDoubleRight } from "react-icons/fa";
+
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 export default function Home() {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -58,6 +62,11 @@ export default function Home() {
     };
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    const MySwal = withReactContent(Swal.mixin({
+
+        buttonsStyling: false,
+    }));
 
     async function handleLogin(e) {
         e.preventDefault();
@@ -172,7 +181,7 @@ export default function Home() {
                 const definirMoreInfo = (nome) => {
                     const match = nome.match(/\d+/);
                     const velocidade = match ? parseInt(match[0], 10) : 0;
-                    return velocidade >= 100 ? "+ 180 Canais Gratuitos" : "";
+                    return velocidade >= 100 ? "+ Canais Gratuitos" : "";
                 };
 
                 const planosFormatados = response.data.map((plano) => ({
@@ -181,6 +190,11 @@ export default function Home() {
                     moreinfo: definirMoreInfo(plano.nome),
                     link: "/",
                     colorIcon: definirCor(plano.nome),
+                    descricao: plano.descricao,
+                    upload: plano.upload,
+                    download: plano.download,
+                    cpe: plano.cpe,
+                    grupo_id: plano.grupo_id
                 }));
 
                 setPlanos(planosFormatados);
@@ -207,6 +221,30 @@ export default function Home() {
         if (nome.includes("1 GIGA")) return "#343434";
         return "#000"; // Cor padrão se não encontrar
     };
+
+    function mostraMaisInformacoes(item) {
+
+        console.log(item);
+
+        MySwal.fire({
+            html: <div className="modal-detalhes-plano">
+                <h4>Detalhes do plano</h4>
+                <h2 style={{ color: item.colorIcon }}>{item.title}</h2>
+                <h3>{item.subtitle}</h3>
+                <h5>{item.moreinfo}</h5>
+
+                <small><strong>Destalhes: </strong>{item.descricao != "" ? item.descricao : "Contate nosso suporte para saber mais."}</small>
+
+                <div className="icons-redirect">
+                    <IoIosGlobe size={45} color={item.colorIcon} />
+                    <TbCircleArrowUpRightFilled size={45} color="#072d6c" title="Contatar o suporte" style={{ cursor: 'pointer' }} />
+                </div>
+            </div>,
+            showCloseButton: true,
+            showConfirmButton: false,
+            allowOutsideClick: false,
+        })
+    }
 
     const informacoes = [
         {
@@ -251,6 +289,30 @@ export default function Home() {
                         </select>
                     </div>
 
+                    <div className="busca-ponto-comercial">
+                        <MdLocationOn size={24} color="#042c64" />
+                        <select name="pontos-comerciais" value={selectedPonto} onChange={handleChange}>
+                            <option value="">Selecione selecione o tipo de plano desejado. Ex.: FIBRA, CABO, RÁDIO...</option>
+                            {pontosComerciais.map((ponto) => (
+                                <option key={ponto.id} value={ponto.id}>
+                                    {ponto.nome}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="busca-ponto-comercial">
+                        <MdLocationOn size={24} color="#042c64" />
+                        <select name="pontos-comerciais" value={selectedPonto} onChange={handleChange}>
+                            <option value="">Selecione o grupo de planos ao qual deseja verificar. Ex.: RESIDENCIAL, EMPRESARIAL, FULL...</option>
+                            {pontosComerciais.map((ponto) => (
+                                <option key={ponto.id} value={ponto.id}>
+                                    {ponto.nome}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
                     <div className="planos-encontrados">
                         <div
                             className="campo-planos-encontrados"
@@ -267,79 +329,43 @@ export default function Home() {
                                     <span>Carregando planos...</span>
                                 </div>
                             ) : (
-                                planos.map((item, i) => (
-                                    <div key={i} className="card-planos">
-                                        <div
-                                            className="top"
-                                            style={{ cursor: "pointer", color: "#072d6c" }}
-                                            title="Contatar o suporte"
-                                        >
-                                            <span>
-                                                <strong>Plano</strong>
-                                            </span>
-                                            <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
+                                planos.map((item, i) => {
+
+                                    return (
+                                        <div key={i} className="card-planos">
+                                            <div
+                                                className="top"
+                                                style={{ cursor: "pointer", color: "#072d6c" }}
+                                                title="Contatar o suporte"
+                                            >
+                                                <span>
+                                                    <strong>Plano</strong>
+                                                </span>
+                                                <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
+                                            </div>
+                                            <div className="campo-descricao">
+                                                <h1 style={{ color: item.colorIcon }}>{item.title}</h1>
+                                                <h3>{item.subtitle}</h3>
+                                                <h5>{item.moreinfo}</h5>
+                                            </div>
+                                            <div className="dados-plano">
+                                                <IoIosGlobe size={25} color={item.colorIcon} />
+
+                                                <FaAngleDoubleRight
+                                                    size={24}
+                                                    color="#042c64"
+                                                    style={{ cursor: 'pointer' }}
+                                                    title="Ver mais"
+                                                    onClick={() => mostraMaisInformacoes(item)} // Chama a função para abrir/fechar
+                                                />
+
+                                            </div>
                                         </div>
-                                        <div className="campo-descricao">
-                                            <h1 style={{ color: item.colorIcon }}>{item.title}</h1>
-                                            <h3>{item.subtitle}</h3>
-                                            <h5>{item.moreinfo}</h5>
-                                        </div>
-                                        <div className="dados-plano">
-                                            <IoIosGlobe size={25} color={item.colorIcon} />
-                                            <h4>{">>"}</h4>
-                                        </div>
-                                    </div>
-                                ))
+                                    )
+                                })
                             )}
                         </div>
                     </div>
-
-                    {/* <div className="planos-encontrados">
-                        <div className="campo-planos-encontrados">
-                            {planos.map((item, i) => {
-                                return (
-
-
-                                    <div key={i} className="card-planos">
-                                        <div
-                                            className="top"
-                                            onClick={() => { }}
-                                            style={{ cursor: "pointer", color: "#072d6c" }}
-                                            title="Contatar plano"
-                                        >
-                                            <span>
-                                                <strong>Plano</strong>
-                                            </span>
-                                            <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
-                                        </div>
-                                        <div className="campo-descricao">
-                                            <h1 style={{ color: item.colorIcon }}>{item.title}</h1>
-                                            <h3>{item.subtitle}</h3>
-                                            <h5>{item.moreinfo}</h5>
-                                        </div>
-                                        <div className="dados-plano">
-                                            <IoIosGlobe size={25} color={item.colorIcon} />
-                                            <h4>teste</h4>
-                                        </div>
-
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div> */}
-                    {/* <div className="carousel-container">
-                        <button className="carousel-btn left-btn" onClick={handlePrev} title="Voltar">
-                            <FaArrowLeft size={30} color="#072d6c" />
-                        </button>
-                        <div className="carousel-wrapper">
-                            <div className="carousel" ref={carouselRef}> */}
-
-                    {/* </div>
-                        </div>
-                        <button className="carousel-btn right-btn" onClick={handleNext} title="Avançar">
-                            <FaArrowRight size={30} color="#072d6c" />
-                        </button>
-                    </div> */}
                 </div>
             ,
         },
