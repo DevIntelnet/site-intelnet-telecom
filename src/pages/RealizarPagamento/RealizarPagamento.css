@@ -9,7 +9,7 @@
 
     padding-inline: 20px;
 }
-.campo-resumo-pagamento .campo-resmo-pag {
+.campo-resumo-pagamento .campo-resumo-pag {
 
     width: 50%;
 
@@ -20,23 +20,23 @@
 
     background-color: #FFF;
 
-    padding: 20px;
+    padding: 30px;
     border-radius: 20px;
 
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
-.campo-resumo-pagamento .campo-resmo-pag h2 {
+.campo-resumo-pagamento .campo-resumo-pag h2 {
 
     color: #072d6c;
     text-align: center;
 }
 
-.campo-resumo-pagamento .campo-resmo-pag .icon-pag {
+.campo-resumo-pagamento .campo-resumo-pag .icon-pag {
 
     margin: 25px 0;
 }
 
-.campo-resumo-pagamento .campo-resmo-pag .dados-beneficiario {
+.campo-resumo-pagamento .campo-resumo-pag .dados-beneficiario {
 
     width: 100%;
 
@@ -50,7 +50,7 @@
     padding: 5px 0;
 }
 
-.campo-resumo-pagamento .campo-resmo-pag .dados-beneficiario span:nth-child(1) {
+.campo-resumo-pagamento .campo-resumo-pag .dados-beneficiario span:nth-child(1) {
 
     width: 100%;
 
@@ -61,7 +61,7 @@
     padding: 5px 0;
 }
 
-.campo-resumo-pagamento .campo-resmo-pag .dados-beneficiario span:nth-child(2) {
+.campo-resumo-pagamento .campo-resumo-pag .dados-beneficiario span:nth-child(2) {
 
     width: 100%;
 
@@ -71,7 +71,7 @@
     padding: 10px 0;
 }
 
-.campo-resumo-pagamento .campo-resmo-pag .dados-beneficiario span:nth-child(3) {
+.campo-resumo-pagamento .campo-resumo-pag .dados-beneficiario span:nth-child(3) {
 
     width: 100%;
 
@@ -82,7 +82,7 @@
     padding: 5px 0;
 }
 
-.campo-resumo-pagamento .campo-resmo-pag .dados-beneficiario span:nth-child(4) {
+.campo-resumo-pagamento .campo-resumo-pag .dados-beneficiario span:nth-child(4) {
 
     width: 100%;
 
@@ -92,7 +92,7 @@
     padding: 10px 0;
 }
 
-.campo-resumo-pagamento .campo-resmo-pag .dados-boleto {
+.campo-resumo-pagamento .campo-resumo-pag .dados-boleto {
 
     width: 100%;
 
@@ -106,7 +106,7 @@
     padding: 5px 0;
 }
 
-.campo-resumo-pagamento .campo-resmo-pag .dados-boleto div {
+.campo-resumo-pagamento .campo-resumo-pag .dados-boleto div {
 
     width: 100%;
 
@@ -116,7 +116,7 @@
     flex-direction: row;
 }
 
-.campo-resumo-pagamento .campo-resmo-pag .dados-boleto div span:first-child {
+.campo-resumo-pagamento .campo-resumo-pag .dados-boleto div span:first-child {
 
     width: 50%;
 
@@ -127,20 +127,61 @@
     padding: 10px 0;
 }
 
-.campo-resumo-pagamento .campo-resmo-pag .dados-boleto div span:last-child {
+.campo-resumo-pagamento .campo-resumo-pag .dados-boleto div span:last-child {
 
     width: 50%;
 
     color: #072d6c;
-    text-align: left;
+    text-align: right;
 
     padding: 10px 0;
+}
+
+.campo-resumo-pagamento .campo-resumo-pag .dados-boleto .info-pag {
+
+    width: 100%;
+    text-align: center;
+    padding: 5px;
+    color: grey;
+}
+
+.campo-resumo-pagamento .campo-resumo-pag .btn-pagar {
+
+    width: 100%;
+}
+
+.campo-resumo-pagamento .campo-resumo-pag .btn-pagar a:link,
+.campo-resumo-pagamento .campo-resumo-pag .btn-pagar a:visited {
+
+    width: 100%;
+
+    font-size: 18px;
+
+    padding: 10px;
+    background-color: #072d6c;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-decoration: none;
+    color: #FFF;
+
+    border-radius: 10px;
+
+    margin-top: 15px;
+}
+
+.campo-resumo-pagamento .campo-resumo-pag .btn-pagar a:hover,
+.campo-resumo-pagamento .campo-resumo-pag .btn-pagar a:active {
+    background-color: #6a81a6;
+    color: #FFF;
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
 
-    .campo-resumo-pagamento .campo-resmo-pag {
+    .campo-resumo-pagamento .campo-resumo-pag {
 
         width: 85%;
     }

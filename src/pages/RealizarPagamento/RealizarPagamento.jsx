@@ -16,6 +16,14 @@ export default function RealizarPagamento() {
     const [nomeExibido, setNomeExibido] = useState("");
     const [boleto, setBoleto] = useState(null);
 
+    function formatDate(data, formato) {
+        if (formato == 'pt-br') {
+            return (data.substr(0, 10).split('-').reverse().join('/'));
+        } else {
+            return (data.substr(0, 10).split('/').reverse().join('-'));
+        }
+    }
+
     useEffect(() => {
         async function fetchCliente() {
             const id_cliente = localStorage.getItem("id_cliente");
@@ -127,7 +135,7 @@ export default function RealizarPagamento() {
             </div>
 
             <div className="campo-resumo-pagamento">
-                <div className="campo-resmo-pag">
+                <div className="campo-resumo-pag">
                     <h2>Resumo da Fatura</h2>
                     <MdOutlineAttachMoney size={50} color="#072d6c" className="icon-pag" />
 
@@ -143,18 +151,24 @@ export default function RealizarPagamento() {
                             <>
                                 <div>
                                     <span>Mês de referência:</span>
-                                    <span>{boleto.mes_referencia}</span>
+                                    <span>{boleto.mes_referencia}/{boleto.ano_referencia}</span>
                                 </div>
                                 <div>
-                                    <span>Ano de referência:</span>
-                                    <span>{boleto.ano_referencia}</span>
+                                    <span>Vencimento:</span>
+                                    <span>{formatDate(boleto.reg_vencimento, 'pt-br')}</span>
                                 </div>
                                 <div>
                                     <span>Valor total:</span>
-                                    <span>R$ {boleto.reg_valor_pos_registro}</span>
+                                    <span>R$ {boleto.registrado == 0 ? boleto.reg_valor : boleto.reg_valor_pos_registro}</span>
                                 </div>
                             </>
                         )}
+
+                        <small className="info-pag">O valor acima está sujeito a juros após a data de<br/> vencimento!*</small>
+                    </div>
+
+                    <div className="btn-pagar">
+                        <a href="#">Pagar</a>
                     </div>
 
                 </div>
