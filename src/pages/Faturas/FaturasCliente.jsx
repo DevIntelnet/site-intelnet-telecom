@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import './FaturasCliente.css'
 import { TbCircleArrowUpRightFilled } from "react-icons/tb";
+import { HiCheckCircle } from "react-icons/hi";
 
 
 export default function FaturasCliente() {
@@ -14,6 +15,10 @@ export default function FaturasCliente() {
     const [error, setError] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
     const [nomeExibido, setNomeExibido] = useState("");
+
+    const [loadingFaturas, setLoadingFaturas] = useState(false);
+    const [idsFat, setIdsFat] = useState([]);
+    const [numFatSincronizadas, setNumFatSincronizadas] = useState(0);
 
     // Função para determinar o texto do status
     const getStatusTextFatura = (item) => {
@@ -66,6 +71,35 @@ export default function FaturasCliente() {
         return '#00ace4'; // Azul padrão para em aberto
     };
 
+    async function atualizaDadosBoletos(array_ids) {
+
+        // console.log(array_ids);
+
+        setLoadingFaturas(true);
+
+        const token = localStorage.getItem("token");
+
+        if (!token) return;
+
+        try {
+            const response = await api.get(`api/boletos/buscar/status/[${array_ids}]`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            console.log(
+                response.data.resultados
+            );
+
+            setNumFatSincronizadas(response.data.tt_resultados);
+
+            setLoadingFaturas(false);
+
+        } catch (error) {
+            console.log('Erro ao verificar o status dos boletos:', error);
+            // alert('Erro', 'Ocorreu um erro na comunicação com o servidor.');
+        }
+    }
+
     useEffect(() => {
         async function fetchCliente() {
             const id_cliente = localStorage.getItem("id_cliente");
@@ -96,6 +130,8 @@ export default function FaturasCliente() {
         fetchCliente();
     }, [navigate]);
 
+    let ids = [];
+
     useEffect(() => {
         async function fetchFaturas() {
 
@@ -117,6 +153,15 @@ export default function FaturasCliente() {
 
                 if (response.data.error === 0) {
                     setFaturas(response.data.dados);
+
+                    response.data.dados.forEach(fat => {
+                        if (fat['reg_baixa'] == 0) {
+                            ids.push(fat.id);
+                        }
+                    });
+
+                    setIdsFat(ids);
+
                     setLoading(false);
                 } else {
                     setError("Erro ao carregar as faturas.");
@@ -129,6 +174,10 @@ export default function FaturasCliente() {
 
         fetchFaturas();
     }, [cliente]);
+
+    useEffect(() => {
+        atualizaDadosBoletos(idsFat);
+    }, [idsFat]);
 
     useEffect(() => {
         function atualizarNomeExibido() {
@@ -172,6 +221,20 @@ export default function FaturasCliente() {
             </div>
 
             <div className="conteudo-faturas">
+                {loadingFaturas ?
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', paddingTop: 15, paddingBottom: 15 }}>
+                        <h4 style={{ color: '#072d6c' }}>Sincronizando boletos...</h4>
+                    </div>
+                    :
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', paddingTop: 15, paddingBottom: 15 }}>
+                        <h3 style={{ color: '#062c6c', marginInline: 5, fontWeight: 'bold' }}>
+                            {numFatSincronizadas}
+                        </h3>
+                        <h4 style={{ color: '#062c6c', marginInline: 5 }}>
+                            Boleto(s) sincronizado(s)!
+                        </h4>
+                    </div>
+                }
                 {loading == true ? <h4 style={{ color: '#072d6c' }}>Carregando faturas...</h4>
                     :
                     faturas.length === 0 ? <h4 style={{ color: '#072d6c' }}>Nenhuma fatura encontrada.</h4> : (
@@ -182,7 +245,11 @@ export default function FaturasCliente() {
                                     <div
                                         key={fatura.id}
                                         className="card-fatura"
-                                        onClick={() => navigate(`/realizar-pagamento/${fatura.id}`)}
+                                        onClick={() => (fatura.reg_baixa == 0 ?
+                                            navigate(`/realizar-pagamento/${fatura.id}`)
+                                            :
+                                            alert("Esta fatura já foi paga!")
+                                        )}
                                         style={{ cursor: "pointer" }} // Para indicar que é clicável
                                     >
                                         <div>
@@ -206,7 +273,11 @@ export default function FaturasCliente() {
                                             {fatura.descricao && <p><strong>Descrição:</strong> <small style={{ color: '#373435', fontWeight: 'bold' }}>{fatura.descricao}</small></p>}
                                         </div>
                                         <div className="actions-fatura">
-                                            <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
+                                            {fatura.reg_baixa == 0 ?
+                                                <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
+                                                :
+                                                <HiCheckCircle size={35} color="#072d6c" />
+                                            }
                                         </div>
                                     </div>
                                 )

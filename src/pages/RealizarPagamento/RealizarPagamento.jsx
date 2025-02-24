@@ -4,6 +4,10 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import api from "../../services/api";
 import "./RealizarPagamento.css";
 import ModalConfirmacao from "../../components/Modal/ModalConfirmacao";
+import QRCode from "react-qr-code";
+
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 import { MdOutlineAttachMoney } from "react-icons/md";
 
@@ -17,6 +21,10 @@ export default function RealizarPagamento() {
     const [nomeExibido, setNomeExibido] = useState("");
     const [boleto, setBoleto] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const MySwal = withReactContent(Swal.mixin({
+        buttonsStyling: false,
+    }));
 
     function formatDate(data, formato) {
         if (formato == 'pt-br') {
@@ -129,13 +137,35 @@ export default function RealizarPagamento() {
             });
 
             if (response.data.success) {
-                navigate(`/realizar-pagamento/${id}`);
+                // navigate(`/realizar-pagamento/${id}`);
+                window.onload();
             } else {
                 alert("Erro ao registrar o pagamento.");
             }
         } catch (error) {
             alert("Erro ao processar o pagamento. Tente novamente.");
         }
+    };
+
+    const copyToClipboard = (text) => {
+        if (!navigator.clipboard) {
+            console.error("Clipboard API não suportada no navegador.");
+            return;
+        }
+
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                MySwal.fire({
+                    title: "Código copiado!",
+                    text: "Código PIX copiado para a área de transferência! \n\nApós o pagamento, acesse sua tela de faturas e atualize a página para confirmar o recebimento do pagamento, ok!",
+                    icon: "success",
+                    confirmButtonText: "OK",
+                }).then(() => {
+                    navigate("/minhas-faturas"); // Redireciona para a página inicial após o alerta
+                });
+            }).catch(err => {
+                console.error("Erro ao copiar o código PIX:", err);
+            });
     };
 
     return (
@@ -187,9 +217,42 @@ export default function RealizarPagamento() {
                         <small className="info-pag">O valor acima está sujeito a juros após a data de<br /> vencimento!*</small>
                     </div>
 
-                    <div className="btn-pagar" onClick={() => setIsModalOpen(true)}>
-                        <a href="#">Pagar</a>
-                    </div>
+                    {boleto && boleto.entryDate !== null && (
+                        <div className="campo-logo-pix">
+                            <img src="/src/assets/logo-pix.png" className="logo-pix" />
+                        </div>
+                    )}
+
+                    {boleto && boleto.entryDate !== null && (
+                        <div className="campo-qrcode">
+                            <small>Leia o QRCode com o seu aplicativo do banco</small>
+                        </div>
+                    )}
+
+                    {boleto && boleto.qrCodePix !== null && (
+                        <div className="campo-qrcode">
+                            <QRCode value={boleto.qrCodePix} size={206} />
+                        </div>
+                    )}
+
+                    {boleto && boleto.entryDate !== null && (
+                        <div className="campo-qrcode">
+                            <small>Para usar o "Pix Copia e Cola" copie o código e cole para completar a transação.</small>
+                        </div>
+                    )}
+
+                    {boleto && (boleto.reg_baixa === null || boleto.reg_baixa === 0) && boleto.registrado === 0 ?
+                        <div className="btn-pagar" onClick={() => setIsModalOpen(true)}>
+                            <a href="#">Pagar</a>
+                        </div>
+                        :
+                        <button
+                            className="btn-copiar-pix"
+                            onClick={() => copyToClipboard(boleto.qrCodePix)}
+                        >
+                            COPIAR CÓDIGO PIX
+                        </button>
+                    }
                 </div>
             </div>
             <ModalConfirmacao
