@@ -14,7 +14,6 @@ export default function RealizarPagamento() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [nomeExibido, setNomeExibido] = useState("");
-
     const [boleto, setBoleto] = useState(null);
 
     useEffect(() => {
@@ -140,19 +139,24 @@ export default function RealizarPagamento() {
                     </div>
 
                     <div className="dados-boleto">
-                        <div>
-                            <span>Mês de referência:</span>
-                            <span>INTELNET SERVICO DE MULTIMIDIA LTDA</span>
-                        </div>
-                        <div>
-                            <span>Vencimento:</span>
-                            <span>INTELNET SERVICO DE MULTIMIDIA LTDA</span>
-                        </div>
-                        <div>
-                            <span>Valor total:</span>
-                            <span>INTELNET SERVICO DE MULTIMIDIA LTDA</span>
-                        </div>
+                        {boleto && (
+                            <>
+                                <div>
+                                    <span>Mês de referência:</span>
+                                    <span>{boleto.mes_referencia}</span>
+                                </div>
+                                <div>
+                                    <span>Ano de referência:</span>
+                                    <span>{boleto.ano_referencia}</span>
+                                </div>
+                                <div>
+                                    <span>Valor total:</span>
+                                    <span>R$ {boleto.reg_valor_pos_registro}</span>
+                                </div>
+                            </>
+                        )}
                     </div>
+
                 </div>
 
                 {/* <p>ID da fatura: {id}</p> */}
