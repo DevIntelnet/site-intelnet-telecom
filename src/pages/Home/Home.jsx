@@ -246,6 +246,16 @@ export default function Home() {
         })
     }
 
+    const redirectToWhatsApp = () => {
+        const numero = "5584991819502";
+        const mensagem = encodeURIComponent("Olá, esqueci minha senha de acesso ao site. Poderia me ajudar?");
+
+        const url = `https://wa.me/${numero}?text=${mensagem}`;
+
+        window.open(url, "_blank");
+    };
+
+
     const informacoes = [
         {
             title: 'Home',
@@ -434,7 +444,9 @@ export default function Home() {
                             )}
                         </button>
                         <div className="esqueci-senha">
-                            <a href="#"><small>Esqueci minha senha {">>"}</small></a>
+                            <a href="#" onClick={redirectToWhatsApp}>
+                                <small>Esqueci minha senha {">>"}</small>
+                            </a>
                         </div>
 
                         {loginMessage && <small><strong>{loginMessage}</strong></small>}

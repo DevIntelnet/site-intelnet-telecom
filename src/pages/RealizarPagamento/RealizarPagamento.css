@@ -231,6 +231,23 @@
     color: #FFF;
 }
 
+.custom-confirm-button {
+    background-color: #4CAF50 !important;
+    color: white !important;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.custom-confirm-button:hover {
+    background-color: #45a049 !important; 
+}
+
+
 /* Responsividade */
 @media (max-width: 768px) {
 

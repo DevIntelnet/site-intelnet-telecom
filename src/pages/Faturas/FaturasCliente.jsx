@@ -5,6 +5,7 @@ import api from "../../services/api";
 import './FaturasCliente.css'
 import { TbCircleArrowUpRightFilled } from "react-icons/tb";
 import { HiCheckCircle } from "react-icons/hi";
+import ModalAlerta from "../../components/Modal/ModalAlerta";
 
 
 export default function FaturasCliente() {
@@ -19,6 +20,7 @@ export default function FaturasCliente() {
     const [loadingFaturas, setLoadingFaturas] = useState(false);
     const [idsFat, setIdsFat] = useState([]);
     const [numFatSincronizadas, setNumFatSincronizadas] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Função para determinar o texto do status
     const getStatusTextFatura = (item) => {
@@ -248,7 +250,7 @@ export default function FaturasCliente() {
                                         onClick={() => (fatura.reg_baixa == 0 ?
                                             navigate(`/realizar-pagamento/${fatura.id}`)
                                             :
-                                            alert("Esta fatura já foi paga!")
+                                            setIsModalOpen(true)
                                         )}
                                         style={{ cursor: "pointer" }} // Para indicar que é clicável
                                     >
@@ -287,6 +289,8 @@ export default function FaturasCliente() {
                     )
                 }
             </div>
+
+            <ModalAlerta isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>
     );
 }

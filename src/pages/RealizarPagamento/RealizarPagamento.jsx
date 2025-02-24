@@ -160,13 +160,18 @@ export default function RealizarPagamento() {
                     text: "Código PIX copiado para a área de transferência! \n\nApós o pagamento, acesse sua tela de faturas e atualize a página para confirmar o recebimento do pagamento, ok!",
                     icon: "success",
                     confirmButtonText: "OK",
+                    customClass: {
+                        confirmButton: "custom-confirm-button",
+                    },
+                    buttonsStyling: false,
                 }).then(() => {
-                    navigate("/minhas-faturas"); // Redireciona para a página inicial após o alerta
+                    navigate("/minhas-faturas");
                 });
             }).catch(err => {
                 console.error("Erro ao copiar o código PIX:", err);
             });
     };
+
 
     return (
         <div className="area-cliente-pagina-interna">
