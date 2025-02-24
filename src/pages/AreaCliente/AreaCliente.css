@@ -232,10 +232,9 @@ h2 {
     padding: 10px 15px;
 
     display: flex;
-    flex-wrap: wrap;
-
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
 }
 
 .faturas-section .faturas-campo-faturas .card-faturas .dados-fatura h3 {

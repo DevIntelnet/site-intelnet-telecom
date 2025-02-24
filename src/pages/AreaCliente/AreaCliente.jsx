@@ -395,7 +395,7 @@ export default function AreaCliente() {
                                         </div>
                                         <div className="dados-fatura">
                                             <h5>Vencimento: {dataVencimento.toLocaleDateString('pt-BR')}</h5>
-                                            <h4>Valor - R$ {fatura.reg_valor_total ? `R$ ${fatura.reg_valor_total.toFixed(2)}` : "N/A"}</h4>
+                                            <h4>Valor - {fatura.reg_valor_total ? `R$ ${fatura.reg_valor_total.toFixed(2)}` : "N/A"}</h4>
                                         </div>
                                         <div className="status-fatura">
                                             {(fatura.reg_baixa == 1 || fatura.reg_baixa == 2) && (

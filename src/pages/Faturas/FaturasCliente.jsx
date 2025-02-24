@@ -3,6 +3,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import './FaturasCliente.css'
+import { TbCircleArrowUpRightFilled } from "react-icons/tb";
 
 
 export default function FaturasCliente() {
@@ -13,6 +14,57 @@ export default function FaturasCliente() {
     const [error, setError] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
     const [nomeExibido, setNomeExibido] = useState("");
+
+    // Função para determinar o texto do status
+    const getStatusTextFatura = (item) => {
+        const hoje = new Date();
+        const regVencimento = new Date(item.reg_vencimento);
+
+        if (item.reg_baixa === 1 || item.reg_baixa === 2) {
+            return 'PAGO';
+        }
+
+        // if (item.informacoes_pos_registro) {
+        //   const status = JSON.parse(item.informacoes_pos_registro).status_boleto_registrado;
+        //   if (status) {
+        //     return status.toUpperCase();
+        //   }
+        // }
+
+        if (regVencimento < hoje) {
+            return 'VENCIDO';
+        }
+
+        return 'EM ABERTO';
+    };
+
+    // Função para determinar a cor do status
+    const getStatusColorFatura = (item) => {
+        const hoje = new Date();
+        const regVencimento = new Date(item.reg_vencimento);
+
+        if (item.reg_baixa === 1 || item.reg_baixa === 2) {
+            return '#106f42'; // Verde para pago
+        }
+
+        if (item.informacoes_pos_registro) {
+            const status = JSON.parse(item.informacoes_pos_registro).status_boleto_registrado;
+            // if (status === 'Ativo' || status === '') {
+            //   return '#ffcc29'; // Amarelo para ativo ou vazio
+            // } else 
+            if (status === 'Liquidado') {
+                return '#106f42'; // Verde para liquidado
+            } else if (status === 'Baixado') {
+                return '#00ace4'; // Azul para baixado
+            }
+        }
+
+        if (regVencimento < hoje) {
+            return '#ed3237'; // Vermelho para vencido
+        }
+
+        return '#00ace4'; // Azul padrão para em aberto
+    };
 
     useEffect(() => {
         async function fetchCliente() {
@@ -46,6 +98,9 @@ export default function FaturasCliente() {
 
     useEffect(() => {
         async function fetchFaturas() {
+
+            setLoading(true);
+
             if (!cliente) return;
 
             const id_cliente = localStorage.getItem("id_cliente");
@@ -62,6 +117,7 @@ export default function FaturasCliente() {
 
                 if (response.data.error === 0) {
                     setFaturas(response.data.dados);
+                    setLoading(false);
                 } else {
                     setError("Erro ao carregar as faturas.");
                 }
@@ -116,22 +172,49 @@ export default function FaturasCliente() {
             </div>
 
             <div className="conteudo-faturas">
-                {faturas.length === 0 ? <p>Nenhuma fatura encontrada.</p> : (
-                    <div className="lista-faturas">
-                        {faturas.map((fatura) => (
-                            <div
-                                key={fatura.id}
-                                className="card-fatura"
-                                onClick={() => navigate(`/realizar-pagamento/${fatura.id}`)}
-                                style={{ cursor: "pointer" }} // Para indicar que é clicável
-                            >
-                                <p><strong>Vencimento:</strong> {fatura.reg_vencimento || "N/A"}</p>
-                                <p><strong>Valor:</strong> {fatura.reg_valor_total ? `R$ ${fatura.reg_valor_total.toFixed(2)}` : "N/A"}</p>
-                                {fatura.descricao && <p><strong>Descrição:</strong> {fatura.descricao}</p>}
-                            </div>
-                        ))}
-                    </div>
-                )}
+                {loading == true ? <h4 style={{ color: '#072d6c' }}>Carregando faturas...</h4>
+                    :
+                    faturas.length === 0 ? <h4 style={{ color: '#072d6c' }}>Nenhuma fatura encontrada.</h4> : (
+                        <div className="lista-faturas">
+                            {faturas.map((fatura) => {
+                                const dataVencimento = new Date(fatura.reg_vencimento);
+                                return (
+                                    <div
+                                        key={fatura.id}
+                                        className="card-fatura"
+                                        onClick={() => navigate(`/realizar-pagamento/${fatura.id}`)}
+                                        style={{ cursor: "pointer" }} // Para indicar que é clicável
+                                    >
+                                        <div>
+                                            <div className="status-fatura">
+                                                <h4
+                                                    style={{
+                                                        color: getStatusColorFatura(fatura),
+                                                    }}
+                                                >{getStatusTextFatura(fatura)}</h4>
+                                                {(fatura.reg_baixa == 1 || fatura.reg_baixa == 2) && (
+                                                    <h5 style={{
+                                                        color: '#072d6c',
+                                                    }}>
+                                                        Valor pago - R$ {fatura.bx_valor_pago}
+                                                    </h5>
+                                                )}
+
+                                            </div>
+                                            <p><strong>Vencimento:</strong> <small style={{ color: '#373435', fontWeight: 'bold' }}>{dataVencimento.toLocaleDateString('pt-BR')}</small></p>
+                                            <p><strong>Valor:</strong> <span style={{ color: '#373435', fontWeight: 'bold' }}>{fatura.reg_valor_total ? `R$ ${fatura.reg_valor_total.toFixed(2)}` : "N/A"}</span></p>
+                                            {fatura.descricao && <p><strong>Descrição:</strong> <small style={{ color: '#373435', fontWeight: 'bold' }}>{fatura.descricao}</small></p>}
+                                        </div>
+                                        <div className="actions-fatura">
+                                            <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
+                                        </div>
+                                    </div>
+                                )
+
+                            })}
+                        </div>
+                    )
+                }
             </div>
         </div>
     );

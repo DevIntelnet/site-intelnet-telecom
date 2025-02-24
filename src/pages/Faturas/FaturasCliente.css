@@ -9,14 +9,53 @@
 }
 
 .card-fatura {
+
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-direction: row;
+
     background: #fff;
     border-radius: 8px;
-    padding: 15px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.card-fatura p {
+.card-fatura div:first-child {
+    padding: 20px;
+}
+
+.card-fatura div:first-child p {
     margin: 5px 0;
+}
+
+.card-fatura div:first-child strong {
+    color: #072d6c;
+}
+
+.card-fatura div:first-child .status-fatura {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+
+    padding: 10px 0;
+}
+
+.card-fatura .actions-fatura {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    border-radius: 0 8px 8px 0;
+    padding: 0 15px;
+
+    background-color: #efefef;
 }
 
 .erro {
