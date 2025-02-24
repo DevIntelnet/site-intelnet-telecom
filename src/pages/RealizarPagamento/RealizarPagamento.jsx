@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import api from "../../services/api";
 import "./RealizarPagamento.css";
+import ModalConfirmacao from "../../components/Modal/ModalConfirmacao";
 
 import { MdOutlineAttachMoney } from "react-icons/md";
 
@@ -15,6 +16,7 @@ export default function RealizarPagamento() {
     const [error, setError] = useState("");
     const [nomeExibido, setNomeExibido] = useState("");
     const [boleto, setBoleto] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     function formatDate(data, formato) {
         if (formato == 'pt-br') {
@@ -118,6 +120,24 @@ export default function RealizarPagamento() {
         }
     ];
 
+    const registrarBoleto = async () => {
+        const token = localStorage.getItem("token");
+
+        try {
+            const response = await api.get(`/api/boletos/registrar/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (response.data.success) {
+                navigate(`/realizar-pagamento/${id}`);
+            } else {
+                alert("Erro ao registrar o pagamento.");
+            }
+        } catch (error) {
+            alert("Erro ao processar o pagamento. Tente novamente.");
+        }
+    };
+
     return (
         <div className="area-cliente-pagina-interna">
             <div className="cabecalho-area-cliente">
@@ -164,17 +184,20 @@ export default function RealizarPagamento() {
                             </>
                         )}
 
-                        <small className="info-pag">O valor acima está sujeito a juros após a data de<br/> vencimento!*</small>
+                        <small className="info-pag">O valor acima está sujeito a juros após a data de<br /> vencimento!*</small>
                     </div>
 
-                    <div className="btn-pagar">
+                    <div className="btn-pagar" onClick={() => setIsModalOpen(true)}>
                         <a href="#">Pagar</a>
                     </div>
-
                 </div>
-
-                {/* <p>ID da fatura: {id}</p> */}
             </div>
+            <ModalConfirmacao
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onConfirm={registrarBoleto}
+            />
+
         </div>
 
     );
