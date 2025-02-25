@@ -15,6 +15,10 @@ import { FaRegEyeSlash } from "react-icons/fa6";
 import { AiOutlineFacebook } from "react-icons/ai";
 import { MdLocationOn } from "react-icons/md";
 import { FaAngleDoubleRight } from "react-icons/fa";
+import { FaAngleUp } from "react-icons/fa";
+import { FaAngleDown } from "react-icons/fa";
+import { RiWirelessChargingFill } from "react-icons/ri";
+import { FaLayerGroup } from "react-icons/fa6";
 
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -27,9 +31,16 @@ export default function Home() {
     const [loginMessage, setLoginMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [mostraSenha, setMostraSenha] = useState(false);
+
     const [pontosComerciais, setPontosComerciais] = useState([]);
-    const [selectedPonto, setSelectedPonto] = useState("");
+    const [cpes, setCpes] = useState([]);
+    const [grupoPlanos, setGrupoPlanos] = useState([]);
     const [planos, setPlanos] = useState([]);
+
+    // Estados para armazenar seleções
+    const [selectedPonto, setSelectedPonto] = useState("");
+    const [selectedCpe, setSelectedCpe] = useState("");
+    const [selectedGrupo, setSelectedGrupo] = useState("");
 
     const planosRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false); // Estado para controlar o arrasto
@@ -113,48 +124,20 @@ export default function Home() {
         },
     ];
 
-    const carouselRef = useRef(null);
-    const cardWidth = 300; // Largura de cada card (igual à largura definida no CSS)
-
-    const handleNext = () => {
-        const carousel = carouselRef.current;
-        carousel.style.transition = "transform 0.5s ease-in-out";
-        carousel.style.transform = `translateX(-${cardWidth}px)`;
-
-        // Move o primeiro card para o final após a transição
-        setTimeout(() => {
-            carousel.style.transition = "none";
-            const firstCard = carousel.children[0];
-            carousel.appendChild(firstCard);
-            carousel.style.transform = "translateX(0px)";
-        }, 500); // Tempo igual à duração da transição
-    };
-
-    const handlePrev = () => {
-        const carousel = carouselRef.current;
-        carousel.style.transition = "none";
-
-        // Move o último card para o início antes da transição
-        const lastCard = carousel.children[carousel.children.length - 1];
-        carousel.insertBefore(lastCard, carousel.children[0]);
-        carousel.style.transform = `translateX(-${cardWidth}px)`;
-
-        // Adiciona a transição para mover de volta ao início
-        setTimeout(() => {
-            carousel.style.transition = "transform 0.5s ease-in-out";
-            carousel.style.transform = "translateX(0px)";
-        }, 0);
-    };
-
     useEffect(() => {
         async function fetchPontosComerciais() {
             try {
                 setLoading(true);
-                const response = await api.get("/api/pontos-comerciais");
-                setPontosComerciais(response.data);
+                const response = await api.get("/api/pontos-comerciais-cpe-grupo-plano");
+                // Atualiza os três estados
+                setPontosComerciais(response.data.pontos_comerciais);
+                setCpes(response.data.cpe);
+                setGrupoPlanos(response.data.grupo_planos);
             } catch (error) {
                 console.error("Erro ao buscar pontos comerciais:", error.message);
                 setPontosComerciais([]);
+                setCpes([]);
+                setGrupoPlanos([]);
             } finally {
                 setLoading(false);
             }
@@ -166,52 +149,97 @@ export default function Home() {
     const handleChange = (event) => {
         const selectedId = event.target.value;
         setSelectedPonto(selectedId);
-        onChange(selectedId); // Passa o ID selecionado para o componente pai (se necessário)
+        setSelectedCpe(""); // Resetar seleção de CPE
+        setSelectedGrupo(""); // Resetar seleção de Grupo de Planos
+        setPlanos([]); // Limpar os planos
+
+        // onChange(selectedId); // Passa o ID selecionado para o componente pai (se necessário)
+
+        if (selectedId) {
+            fetchPlanos(selectedId);
+        }
     };
+
+    async function fetchPlanos() {
+        try {
+            setLoading(true);
+
+            const response = await api.get(`/api/pontos-comerciais/${selectedPonto}/planos`);
+
+            const definirMoreInfo = (nome) => {
+                const match = nome.match(/\d+/);
+                const velocidade = match ? parseInt(match[0], 10) : 0;
+                return velocidade >= 100 ? "+ Canais Gratuitos" : "";
+            };
+
+            const planosFormatados = response.data.map((plano) => ({
+                title: plano.nome.toUpperCase(),
+                subtitle: `por R$ ${plano.valor.toFixed(2)}`,
+                moreinfo: definirMoreInfo(plano.nome),
+                link: "/",
+                colorIcon: definirCor(plano.nome),
+                descricao: plano.descricao,
+                upload: plano.upload,
+                download: plano.download,
+                cpe: plano.cpe,
+                grupo_id: plano.grupo_id
+            }));
+
+            setPlanos(planosFormatados);
+
+            console.log(planosFormatados);
+
+        } catch (error) {
+            console.error("Erro ao buscar planos:", error.message);
+            setPlanos([]);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     useEffect(() => {
         if (!selectedPonto) return;
 
-        async function fetchPlanos() {
-            try {
-                setLoading(true);
-
-                const response = await api.get(`/api/pontos-comerciais/${selectedPonto}/planos`);
-
-                const definirMoreInfo = (nome) => {
-                    const match = nome.match(/\d+/);
-                    const velocidade = match ? parseInt(match[0], 10) : 0;
-                    return velocidade >= 100 ? "+ Canais Gratuitos" : "";
-                };
-
-                const planosFormatados = response.data.map((plano) => ({
-                    title: plano.nome.toUpperCase(),
-                    subtitle: `por R$ ${plano.valor.toFixed(2)}`,
-                    moreinfo: definirMoreInfo(plano.nome),
-                    link: "/",
-                    colorIcon: definirCor(plano.nome),
-                    descricao: plano.descricao,
-                    upload: plano.upload,
-                    download: plano.download,
-                    cpe: plano.cpe,
-                    grupo_id: plano.grupo_id
-                }));
-
-                setPlanos(planosFormatados);
-            } catch (error) {
-                console.error("Erro ao buscar planos:", error.message);
-                setPlanos([]);
-            } finally {
-                setLoading(false);
-            }
-        }
-
         fetchPlanos();
     }, [selectedPonto]);
 
-    const handlePontoChange = (event) => {
-        setSelectedPonto(event.target.value);
+    // Manipula a mudança no select de CPE
+    const handleCpeChange = (event) => {
+        setSelectedCpe(event.target.value);
+        setSelectedGrupo(""); // Resetar grupo de planos
     };
+
+    // Manipula a mudança no select de Grupo de Planos
+    const handleGrupoChange = (event) => {
+        setSelectedGrupo(event.target.value);
+    };
+
+    // Filtrar planos conforme seleção de CPE e Grupo de Planos
+    function filtraPlanos(planos) {
+
+        var res = [];
+
+        try {
+            if (selectedCpe != "") {
+
+                res = planos.filter((plano) => plano.cpe == selectedCpe);
+            }
+
+            if (selectedCpe != "" && selectedGrupo != "") {
+                res = planos.filter((plano) => plano.cpe == selectedCpe && plano.grupo_id == selectedGrupo);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return res;
+    }
+    // const planosFiltrados = planos.filter((plano) => {
+    //     return (
+    //         (!selectedCpe || plano.cpe === selectedCpe) &&
+    //         (!selectedGrupo || plano.grupo_id === selectedGrupo)
+    //     );
+    // });
 
     const definirCor = (nome) => {
         if (nome.includes("100 MEGA")) return "#ec3434";
@@ -221,6 +249,18 @@ export default function Home() {
         if (nome.includes("1 GIGA")) return "#343434";
         return "#000"; // Cor padrão se não encontrar
     };
+
+    function formatBytes(bytes, decimals = 2) {
+        if (!+bytes) return '0 Bytes'
+
+        const k = 1024
+        const dm = decimals < 0 ? 0 : decimals
+        const sizes = ['Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
+
+        const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+        return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+    }
 
     function mostraMaisInformacoes(item) {
 
@@ -234,11 +274,21 @@ export default function Home() {
                 <h5>{item.moreinfo}</h5>
 
                 <small><strong>Destalhes: </strong>{item.descricao != "" ? item.descricao : "Contate nosso suporte para saber mais."}</small>
-
                 <div className="icons-redirect">
                     <IoIosGlobe size={45} color={item.colorIcon} />
                     <TbCircleArrowUpRightFilled size={45} color="#072d6c" title="Contatar o suporte" style={{ cursor: 'pointer' }} />
                 </div>
+                <div className="dados-sinal">
+                    <div>
+                        <h4> Upl <FaAngleUp /></h4>
+                        <h5>{formatBytes(item.upload)}</h5>
+                    </div>
+                    <div>
+                        <h4> Down <FaAngleDown /></h4>
+                        <h5>{formatBytes(item.download)}</h5>
+                    </div>
+                </div>
+
             </div>,
             showCloseButton: true,
             showConfirmButton: false,
@@ -287,6 +337,7 @@ export default function Home() {
             backgroundImage: "/src/assets/plano7.jpg", // Caminho da imagem de fundo
             content:
                 <div className="planos">
+                    {/* Select para Ponto Comercial */}
                     <div className="busca-ponto-comercial">
                         <MdLocationOn size={24} color="#042c64" />
                         <select name="pontos-comerciais" value={selectedPonto} onChange={handleChange}>
@@ -299,30 +350,37 @@ export default function Home() {
                         </select>
                     </div>
 
-                    <div className="busca-ponto-comercial">
-                        <MdLocationOn size={24} color="#042c64" />
-                        <select name="pontos-comerciais" value={selectedPonto} onChange={handleChange}>
-                            <option value="">Selecione selecione o tipo de plano desejado. Ex.: FIBRA, CABO, RÁDIO...</option>
-                            {pontosComerciais.map((ponto) => (
-                                <option key={ponto.id} value={ponto.id}>
-                                    {ponto.nome}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                    {/* Select para CPE (exibe apenas se um ponto comercial foi selecionado) */}
+                    {selectedPonto && (
+                        <div className="busca-ponto-comercial">
+                            <RiWirelessChargingFill size={24} color="#042c64" />
+                            <select name="cpes" value={selectedCpe} onChange={handleCpeChange}>
+                                <option value="">Selecione selecione o tipo de plano desejado. Ex.: FIBRA, CABO, RÁDIO...</option>
+                                {cpes.map((cpe) => (
+                                    <option key={cpe.id} value={cpe.id}>
+                                        {cpe.nome}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
 
-                    <div className="busca-ponto-comercial">
-                        <MdLocationOn size={24} color="#042c64" />
-                        <select name="pontos-comerciais" value={selectedPonto} onChange={handleChange}>
-                            <option value="">Selecione o grupo de planos ao qual deseja verificar. Ex.: RESIDENCIAL, EMPRESARIAL, FULL...</option>
-                            {pontosComerciais.map((ponto) => (
-                                <option key={ponto.id} value={ponto.id}>
-                                    {ponto.nome}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                    {/* Select para Grupo de Planos (exibe apenas se um CPE foi selecionado) */}
+                    {selectedCpe && (
+                        <div className="busca-ponto-comercial">
+                            <FaLayerGroup size={24} color="#042c64" />
+                            <select name="grupos_planos" value={selectedGrupo} onChange={handleGrupoChange}>
+                                <option value="">Selecione o grupo de planos ao qual deseja verificar. Ex.: RESIDENCIAL, EMPRESARIAL, FULL...</option>
+                                {grupoPlanos.map((grupo) => (
+                                    <option key={grupo.id} value={grupo.id}>
+                                        {grupo.grupo}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
 
+                    {/* Renderização dos planos filtrados */}
                     <div className="planos-encontrados">
                         <div
                             className="campo-planos-encontrados"
@@ -339,40 +397,46 @@ export default function Home() {
                                     <span>Carregando planos...</span>
                                 </div>
                             ) : (
-                                planos.map((item, i) => {
 
-                                    return (
-                                        <div key={i} className="card-planos">
-                                            <div
-                                                className="top"
-                                                style={{ cursor: "pointer", color: "#072d6c" }}
-                                                title="Contatar o suporte"
-                                            >
-                                                <span>
-                                                    <strong>Plano</strong>
-                                                </span>
-                                                <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
-                                            </div>
-                                            <div className="campo-descricao">
-                                                <h1 style={{ color: item.colorIcon }}>{item.title}</h1>
-                                                <h3>{item.subtitle}</h3>
-                                                <h5>{item.moreinfo}</h5>
-                                            </div>
-                                            <div className="dados-plano">
-                                                <IoIosGlobe size={25} color={item.colorIcon} />
+                                filtraPlanos(planos).length > 0 ? (
+                                    filtraPlanos(planos).map((item, i) => {
 
-                                                <FaAngleDoubleRight
-                                                    size={24}
-                                                    color="#042c64"
-                                                    style={{ cursor: 'pointer' }}
-                                                    title="Ver mais"
-                                                    onClick={() => mostraMaisInformacoes(item)} // Chama a função para abrir/fechar
-                                                />
+                                        return (
+                                            <div key={i} className="card-planos">
+                                                <div
+                                                    className="top"
+                                                    style={{ cursor: "pointer", color: "#072d6c" }}
+                                                    title="Contatar o suporte"
+                                                >
+                                                    <span>
+                                                        <strong>Plano</strong>
+                                                    </span>
+                                                    <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
+                                                </div>
+                                                <div className="campo-descricao">
+                                                    <h1 style={{ color: item.colorIcon }}>{item.title}</h1>
+                                                    <h3>{item.subtitle}</h3>
+                                                    <h5>{item.moreinfo}</h5>
+                                                </div>
+                                                <div className="dados-plano">
+                                                    <IoIosGlobe size={25} color={item.colorIcon} />
 
+                                                    <FaAngleDoubleRight
+                                                        size={24}
+                                                        color="#042c64"
+                                                        style={{ cursor: 'pointer' }}
+                                                        title="Ver mais"
+                                                        onClick={() => mostraMaisInformacoes(item)} // Chama a função para abrir/fechar
+                                                    />
+
+                                                </div>
                                             </div>
-                                        </div>
-                                    )
-                                })
+                                        )
+                                    })
+                                ) : (
+                                    <p style={{ color: '#FFF', fontSize: 18 }}>Nenhum plano encontrado para os filtros selecionados.</p>
+                                )
+
                             )}
                         </div>
                     </div>

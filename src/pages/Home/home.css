@@ -911,3 +911,13 @@
     align-items: center;
     flex-direction: row;
 }
+
+.modal-detalhes-plano .dados-sinal {
+
+    width: 85%;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+}

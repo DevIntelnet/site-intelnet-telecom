@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 import './PerfilCliente.css';
+import { LuCalendarCog } from "react-icons/lu";
 
 export default function PerfilCliente() {
     const navigate = useNavigate();
@@ -77,7 +78,9 @@ export default function PerfilCliente() {
     return (
         <div className="area-cliente-pagina-interna">
             {loading ? (
-                <p className="carregando">Carregando...</p>
+                <div className="carregando">
+                    <h4 style={{ color: '#072d6c' }}>Carregando...</h4>
+                </div>
             ) : (
                 <>
                     <div className="cabecalho-area-cliente">
@@ -96,23 +99,26 @@ export default function PerfilCliente() {
 
                     <div className="container-perfil-cliente">
                         {error ? (
-                            <p className="erro">{error}</p>
+                            <h4 style={{ color: '#072d6c' }}>{error}</h4>
                         ) : (
                             <div className="perfil-container">
                                 <div className="perfil-card">
                                     <div className="perfil-header">
-                                        <FaUser size={40} className="perfil-avatar" />
-                                        <h2>{cliente.pessoa.fantasia || cliente.pessoa.nome}</h2>
+                                        <FaUser size={40} color="#072d6c" className="icon-perfil" />
+                                        <h3>{cliente.pessoa.fantasia || cliente.pessoa.nome}</h3>
                                     </div>
+                                    <div className="title-divider"><strong>Endereço</strong></div>
                                     <div className="perfil-info">
-                                        <p><FaMapMarkerAlt /> <strong>Rua:</strong> <span>{cliente.pessoa.endereco}</span></p>
-                                        <p><FaMapMarkerAlt /> <strong>Número:</strong> <span>{cliente.pessoa.num_end}</span></p>
-                                        <p><FaMapMarkerAlt /> <strong>Bairro:</strong> <span>{cliente.pessoa.bairro}</span></p>
-                                        <p><FaMapMarkerAlt /> <strong>Cidade:</strong> <span>{cliente.pessoa.cidade}</span></p>
-                                        <p><FaMapSigns /> <strong>Referência:</strong> <span>{cliente.pessoa.referencia || "Não informado"}</span></p>
+                                        <small><FaMapMarkerAlt color="#6a81a6" /> <strong>Rua:</strong> <span>{cliente.pessoa.endereco}</span></small>
+                                        <small><FaMapMarkerAlt color="#6a81a6" /> <strong>Número:</strong> <span>{cliente.pessoa.num_end}</span></small>
+                                        <small><FaMapMarkerAlt color="#6a81a6" /> <strong>Bairro:</strong> <span>{cliente.pessoa.bairro}</span></small>
+                                        <small><FaMapMarkerAlt color="#6a81a6" /> <strong>Cidade:</strong> <span>{cliente.pessoa.cidade}</span></small>
+                                        <small><FaMapSigns color="#6a81a6" /> <strong>Referência:</strong> <span>{cliente.pessoa.referencia || "Não informado"}</span></small>
                                     </div>
-
-
+                                    <div className="title-divider"><strong>Outras informações</strong></div>
+                                    <div className="perfil-info">
+                                        <small><LuCalendarCog color="#6a81a6" /> <strong>Vencimento:</strong> <span>{cliente.cliente.vencimento}</span></small>
+                                    </div>
                                     <button className="logout-button" onClick={handleLogout}>
                                         <FaSignOutAlt /> Sair
                                     </button>

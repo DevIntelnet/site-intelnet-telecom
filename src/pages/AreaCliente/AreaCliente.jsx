@@ -8,6 +8,8 @@ import { LiaCarSideSolid } from "react-icons/lia";
 import { Link } from "react-router-dom";
 import { MdAttachMoney } from "react-icons/md";
 import { TbCircleArrowUpRightFilled } from "react-icons/tb";
+import { HiCheckCircle } from "react-icons/hi";
+import ModalAlerta from "../../components/Modal/ModalAlerta";
 
 export default function AreaCliente() {
     const navigate = useNavigate();
@@ -17,6 +19,7 @@ export default function AreaCliente() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [nomeExibido, setNomeExibido] = useState("");
     const [faturas, setFaturas] = useState([]); // Estado para armazenar os boletos
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const planosRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false); // Estado para controlar o arrasto
@@ -384,14 +387,23 @@ export default function AreaCliente() {
                                     <div key={i} className="card-faturas">
                                         <div
                                             className="top"
-                                            onClick={() => navigate(`/realizar-pagamento/${fatura.id}`)}
+                                            // onClick={() => navigate(`/realizar-pagamento/${fatura.id}`)}
+                                            onClick={() => (fatura.reg_baixa == 0 ?
+                                                navigate(`/realizar-pagamento/${fatura.id}`)
+                                                :
+                                                setIsModalOpen(true)
+                                            )}
                                             style={{ cursor: "pointer", color: "#072d6c" }}
                                             title="Ver fatura"
                                         >
                                             <span>
                                                 <strong>{fatura.mes_referencia}/{fatura.ano_referencia} - <small style={{ color: '#373435' }}>Mês referência</small></strong>
                                             </span>
-                                            <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
+                                            {fatura.reg_baixa == 0 ?
+                                                <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
+                                                :
+                                                <HiCheckCircle size={35} color="#072d6c" />
+                                            }
                                         </div>
                                         <div className="dados-fatura">
                                             <h5>Vencimento: {dataVencimento.toLocaleDateString('pt-BR')}</h5>
@@ -464,22 +476,6 @@ export default function AreaCliente() {
                         <h5 style={{ color: '#072d6c' }}>Nenhum plano ativo.</h5>
                     )}
                 </div>
-                {/* <div className="planos-container">
-                    {cliente.plano && cliente.plano.length > 0 ? (
-                        cliente.plano.map((plano) => (
-                            <div key={plano.id} className="plano-card-inicio">
-                                <h3 className="plano-nome">{plano.nome}</h3>
-                                <p className="plano-valor">R$ {plano.valor}</p>
-
-                                {plano.nome.includes("FIBRA") && (
-                                    <p className="plano-aviso">Canais gratuitos</p>
-                                )}
-                            </div>
-                        ))
-                    ) : (
-                        <p>Nenhum plano ativo.</p>
-                    )}
-                </div> */}
             </div>
 
             <div className="ordens-servicos-section">
@@ -539,71 +535,7 @@ export default function AreaCliente() {
                     )}
                 </div>
             </div>
-
-
-            {/* <div className="ordens-servico-section">
-                <h2 className="ordens-servico-titulo">Minhas Ordens de Serviço</h2>
-                <div className="ordens-servico-container">
-                    {cliente.ordemServico.length > 0 ? (
-                        cliente.ordemServico.map((os) => {
-                            const dataCadastro = new Date(os.dataCadastro);
-                            const dataExecucao = new Date(os.dataExecucao);
-                            const statusClass = getStatusClass(os.status_id);
-                            const statusText = getStatusText(os.status_id);
-
-                            return (
-                                <div key={os.id} className="ordem-card">
-                                    <div className="ordem-card-content">
-                                        <p><strong>Data de Cadastro:</strong> {dataCadastro.toLocaleDateString('pt-BR')}</p>
-                                        <p><strong>Previsto para:</strong> {dataExecucao ? new Date(dataExecucao).toLocaleDateString('pt-BR') : "Em análise"}</p>
-                                        <div className="ordem-card-status">
-                                            <strong>Situação:</strong>
-                                            <span className={`status-card ${statusClass}`}>{statusText}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })
-                    ) : (
-                        <p>Nenhuma OS registrada.</p>
-                    )}
-                </div>
-            </div> */}
-
-
-
-            {/* <section className="plano">
-                <h2>Seu Plano</h2>
-                {cliente.plano && cliente.plano.length > 0 ? (
-                    cliente.plano.map((plano) => (
-                        <div key={plano.id} className="plano-card-inicio">
-                            <h3>{plano.nome}</h3>
-                            <p><strong>Valor:</strong> R$ {plano.valor}</p>
-                            <p><strong>Contrato:</strong> {plano.num_contrato}</p>
-                        </div>
-                    ))
-                ) : (
-                    <p>Nenhum plano ativo.</p>
-                )}
-            </section>
-
-            <section className="ordens">
-                <h2>Ordens de Serviço</h2>
-                {cliente.ordemServico.length > 0 ? (
-                    cliente.ordemServico.map((os) => (
-                        <div key={os.id} className="os-card">
-                            <h3>OS #{os.codigo}</h3>
-                            <p><strong>Data:</strong> {os.dataCadastro}</p>
-                            <p><strong>Atividades:</strong> {os.atividades}</p>
-                            <p><strong>Observação:</strong> {os.observacao || "Nenhuma"}</p>
-                        </div>
-                    ))
-                ) : (
-                    <p>Nenhuma OS registrada.</p>
-                )}
-            </section> */}
-
-            {/* <button className="logout-btn" onClick={handleLogout}>Sair</button> */}
+            <ModalAlerta isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>
     );
 }
