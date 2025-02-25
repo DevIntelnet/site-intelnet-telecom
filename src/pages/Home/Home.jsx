@@ -174,7 +174,7 @@ export default function Home() {
 
             const planosFormatados = response.data.map((plano) => ({
                 title: plano.nome.toUpperCase(),
-                subtitle: `por R$ ${plano.valor.toFixed(2)}`,
+                subtitle: `por R$ ${plano.valor.toFixed(2).replace(".", ",")}`,
                 moreinfo: definirMoreInfo(plano.nome),
                 link: "/",
                 colorIcon: definirCor(plano.nome),
@@ -234,12 +234,6 @@ export default function Home() {
 
         return res;
     }
-    // const planosFiltrados = planos.filter((plano) => {
-    //     return (
-    //         (!selectedCpe || plano.cpe === selectedCpe) &&
-    //         (!selectedGrupo || plano.grupo_id === selectedGrupo)
-    //     );
-    // });
 
     const definirCor = (nome) => {
         if (nome.includes("100 MEGA")) return "#ec3434";
@@ -305,6 +299,27 @@ export default function Home() {
         window.open(url, "_blank");
     };
 
+    const redirecionarParaWhatsAppPlanos = (plano) => {
+        const numeroSuporte = "5584991819502";
+
+        const selectedPontoId = Number(selectedPonto);
+        const selectedCpeId = Number(selectedCpe);
+        const selectedGrupoId = Number(selectedGrupo);
+
+        const localidadeNome = pontosComerciais.find(p => p.id === selectedPontoId)?.nome || "Não informado";
+        const cpeNome = cpes.find(c => c.id === selectedCpeId)?.nome || "Não informado";
+        const grupoNome = grupoPlanos.find(g => g.id === selectedGrupoId)?.grupo || "Não informado";
+
+        const mensagem = `Olá, venho do site e tenho interesse em um plano.
+        Localidade: ${localidadeNome};
+        CPE: ${cpeNome};
+        Grupo de Planos: ${grupoNome};
+        Plano escolhido: ${plano.title};`;
+
+        const urlWhatsApp = `https://wa.me/${numeroSuporte}?text=${encodeURIComponent(mensagem)}`;
+
+        window.open(urlWhatsApp, "_blank");
+    };
 
     const informacoes = [
         {
@@ -407,6 +422,7 @@ export default function Home() {
                                                     className="top"
                                                     style={{ cursor: "pointer", color: "#072d6c" }}
                                                     title="Contatar o suporte"
+                                                    onClick={() => redirecionarParaWhatsAppPlanos(item)}
                                                 >
                                                     <span>
                                                         <strong>Plano</strong>
@@ -550,7 +566,6 @@ export default function Home() {
                             className="section"
                             id={"section" + i}
                             style={{
-                                // backgroundColor: (i == 1 || i == 3) && "#efefef",
                                 backgroundImage: item.hasBackground ? `url(${item.backgroundImage}) , linear-gradient(rgba(239, 239, 239, 0), rgba(239, 239, 239, 0))` : "none",
                                 backgroundSize: "cover",
                                 backgroundBlendMode: "overlay",
