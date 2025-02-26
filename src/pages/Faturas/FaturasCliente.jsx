@@ -99,6 +99,10 @@ export default function FaturasCliente() {
         } catch (error) {
             console.log('Erro ao verificar o status dos boletos:', error);
             // alert('Erro', 'Ocorreu um erro na comunicação com o servidor.');
+
+            setNumFatSincronizadas(0);
+
+            setLoadingFaturas(false);
         }
     }
 
@@ -210,9 +214,9 @@ export default function FaturasCliente() {
         <div className="area-cliente-pagina-interna">
             <div className="cabecalho-area-cliente">
                 <div className="nome">Olá, {nomeExibido}</div>
-                <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+                <a style={{zIndex: 9999999, cursor: 'pointer'}} className="d-none-menu" onClick={() => setMenuOpen(!menuOpen)}>
                     {menuOpen ? <FaTimes size={27} /> : <FaBars size={27} />}
-                </button>
+                </a>
                 <nav className={`links ${menuOpen ? "open" : ""}`}>
                     {links.map((item, i) => (
                         <Link key={i} to={item.link} onClick={() => setMenuOpen(false)}>

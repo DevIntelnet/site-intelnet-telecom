@@ -209,6 +209,10 @@ export default function AreaCliente() {
 
     const links = [
         {
+            title: 'Suporte',
+            link: "/suporte",
+        },
+        {
             title: 'Faturas',
             link: "/minhas-faturas",
         },
@@ -348,9 +352,9 @@ export default function AreaCliente() {
             <div className="cabecalho-area-cliente">
                 <div className="nome">Olá, {nomeExibido}</div>
                 {/* Botão de menu hambúrguer */}
-                <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+                <a style={{zIndex: 9999999, cursor: 'pointer'}} className="d-none-menu" onClick={() => setMenuOpen(!menuOpen)}>
                     {menuOpen ? <FaTimes size={27} /> : <FaBars size={27} />}
-                </button>
+                </a>
 
                 {/* Menu de navegação */}
                 <nav className={`links ${menuOpen ? "open" : ""}`}>
@@ -394,7 +398,7 @@ export default function AreaCliente() {
                                                 setIsModalOpen(true)
                                             )}
                                             style={{ cursor: "pointer", color: "#072d6c" }}
-                                            title="Ver fatura"
+                                            title={fatura.reg_baixa == 0 ? "Ver fatura" : "Fatura paga!"}
                                         >
                                             <span>
                                                 <strong>{fatura.mes_referencia}/{fatura.ano_referencia} - <small style={{ color: '#373435' }}>Mês referência</small></strong>

@@ -1,0 +1,174 @@
+.container-suporte {
+
+    width: 100%;
+    height: 200vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container-suporte .suporte-container {
+
+    width: 500px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    /* Sombras mais suaves e maiores */
+
+    padding: 25px;
+
+    margin: 20px 0;
+}
+
+.container-suporte .suporte-container h2 {
+
+    color: #072d6c;
+
+    padding: 10px 0;
+}
+
+.container-suporte .suporte-container .options-suporte {
+
+    width: 100%;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    padding: 10px 0;
+}
+
+.container-suporte .suporte-container .options-suporte .select {
+
+    background-color: #072d6c;
+    text-decoration: none;
+    color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 20px;
+}
+
+.container-suporte .suporte-container .options-suporte .no-select {
+
+    background-color: #FFFFFF;
+    text-decoration: none;
+    color: #072d6c;
+    padding: 10px 15px;
+    border-radius: 20px;
+}
+
+/* OPÇÕES INTERNET */
+
+.container-suporte .suporte-container .list-opt-internet {
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    padding: 15px;
+}
+
+.container-suporte .suporte-container .list-opt-internet .opt-int {
+
+    width: 100%;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    text-decoration: none;
+
+    background-color: #eff8ff;
+
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+    padding: 10px;
+    margin: 10px 0;
+
+    border-radius: 5px;
+}
+
+.container-suporte .suporte-container .list-opt-internet .opt-int:hover {
+    background-color: #cae8ff;
+}
+
+
+.container-suporte .suporte-container .list-opt-internet .opt-int span {
+
+    color: #072d6c;
+    margin: 0 10px;
+}
+
+.icon-opt {
+
+    margin-inline: 5px;
+}
+
+/* OPÇÕES CANAIS */
+
+.container-suporte .suporte-container .list-opt-canais {
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    padding: 15px;
+}
+
+.container-suporte .suporte-container .list-opt-canais .opt-int {
+
+    width: 100%;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    text-decoration: none;
+
+    background-color: #eff8ff;
+
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+    padding: 10px;
+    margin: 10px 0;
+
+    border-radius: 5px;
+}
+
+.container-suporte .suporte-container .list-opt-canais .opt-int:hover {
+    background-color: #cae8ff;
+}
+
+
+.container-suporte .suporte-container .list-opt-canais .opt-int span {
+
+    color: #072d6c;
+    margin: 0 10px;
+}
+
+.icon-opt {
+
+    margin-inline: 5px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+
+    .container-perfil-cliente .perfil-container {
+
+        width: 90%;
+    }
+}

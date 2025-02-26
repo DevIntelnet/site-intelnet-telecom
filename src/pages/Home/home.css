@@ -26,6 +26,11 @@
     z-index: 999;
 }
 
+.d-none-menu {
+
+    display: none;
+}
+
 .container-home .cabecalho .logo-intel img {
 
     width: 120px;
@@ -739,6 +744,11 @@
     .home {
 
         width: 60%;
+    }
+
+    .d-none-menu {
+
+        display: block;
     }
 
     .menu {

@@ -177,9 +177,9 @@ export default function RealizarPagamento() {
         <div className="area-cliente-pagina-interna">
             <div className="cabecalho-area-cliente">
                 <div className="nome">Olá, {nomeExibido}</div>
-                <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+                <a style={{zIndex: 9999999, cursor: 'pointer'}} className="d-none-menu" onClick={() => setMenuOpen(!menuOpen)}>
                     {menuOpen ? <FaTimes size={27} /> : <FaBars size={27} />}
-                </button>
+                </a>
                 <nav className={`links ${menuOpen ? "open" : ""}`}>
                     {links.map((item, i) => (
                         <Link key={i} to={item.link} onClick={() => setMenuOpen(false)}>

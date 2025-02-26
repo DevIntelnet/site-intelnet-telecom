@@ -19,6 +19,8 @@ import { FaAngleUp } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa";
 import { RiWirelessChargingFill } from "react-icons/ri";
 import { FaLayerGroup } from "react-icons/fa6";
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
 
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -41,6 +43,12 @@ export default function Home() {
     const [selectedPonto, setSelectedPonto] = useState("");
     const [selectedCpe, setSelectedCpe] = useState("");
     const [selectedGrupo, setSelectedGrupo] = useState("");
+
+    const [index, setIndex] = useState(0);
+
+    const handleSelect = (selectedIndex) => {
+        setIndex(selectedIndex);
+    };
 
     const planosRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false); // Estado para controlar o arrasto
@@ -335,12 +343,12 @@ export default function Home() {
                         <FaStar color="#373435" className="icon" size={90} />
                         <div className="linha-icon-star"></div>
                     </div>
-                    <h3>Nosso Whatsapp e Instagram</h3>
-                    <h4>(84) 99181 9502 - @intelnet.telecomoficial</h4>
+                    <h3>Nosso Facebook, Whatsapp e Instagram</h3>
+                    <h4>Intelnet Nova Cruz - (84) 99181 9502 - @intelnet.telecomoficial</h4>
                     <div className="linha-social">
-                        <a href="#" title="Ir para o Facebook"><AiOutlineFacebook size={39} color="#0D61A9" /></a>
-                        <a href="#" title="Ir para o Whatsapp"><FaWhatsapp size={36} color="#00B26E" /></a>
-                        <a href="#" title="Ir para o Instagram"><FaInstagram size={36} color="#D84178" /></a>
+                        <a href="https://www.facebook.com/intelnet.novacruz" target="_blank" title="Ir para o Facebook"><AiOutlineFacebook size={39} color="#0D61A9" /></a>
+                        <a href="#" title="Ir para o Whatsapp" target="_blank"><FaWhatsapp size={36} color="#00B26E" /></a>
+                        <a href="https://www.instagram.com/intelnet.telecomoficial" target="_blank" title="Ir para o Instagram"><FaInstagram size={36} color="#D84178" /></a>
                     </div>
                 </div>
             ,
@@ -544,9 +552,9 @@ export default function Home() {
                 </a>
 
                 {/* Botão de menu hambúrguer (aparece só no mobile) */}
-                <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+                <a style={{zIndex: 9999999, cursor: 'pointer'}} className="d-none-menu" onClick={() => setMenuOpen(!menuOpen)}>
                     {menuOpen ? <FaTimes size={27} /> : <FaBars size={27} />}
-                </button>
+                </a>
 
                 {/* Menu de navegação */}
                 <nav className={`menu ${menuOpen ? "open" : ""}`}>
@@ -560,11 +568,15 @@ export default function Home() {
 
             <div className="conteudo">
                 {informacoes.map((item, i) => {
+                    const ref = useRef(null);
+                    const isInView = useInView(ref, { once: true, margin: "-50px" });
+
                     return (
                         <section
                             key={i}
                             className="section"
                             id={"section" + i}
+                            ref={ref}
                             style={{
                                 backgroundImage: item.hasBackground ? `url(${item.backgroundImage}) , linear-gradient(rgba(239, 239, 239, 0), rgba(239, 239, 239, 0))` : "none",
                                 backgroundSize: "cover",
@@ -572,7 +584,21 @@ export default function Home() {
                                 backgroundPosition: "center",
                             }}
                         >
-                            {item.content}
+                            <motion.div
+                                initial={{ opacity: 0, y: 50 }}
+                                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                                transition={{ duration: 0.8, ease: "easeOut" }}
+                                style={{
+                                    width: '100%',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    flexDirection: 'column'
+                                }}
+                            >
+
+                                {item.content}
+                            </motion.div>
                         </section>
                     )
                 })}
@@ -585,9 +611,9 @@ export default function Home() {
                 <div>
                     <h4>REDES SOCIAIS</h4>
                     <div className="linha-social">
-                        <a href="#" title="Ir para o Facebook"><AiOutlineFacebook size={39} color="#0D61A9" /></a>
-                        <a href="#" title="Ir para o Whatsapp"><FaWhatsapp size={36} color="#00B26E" /></a>
-                        <a href="#" title="Ir para o Instagram"><FaInstagram size={36} color="#D84178" /></a>
+                        <a href="https://www.facebook.com/intelnet.novacruz" target="_blank" title="Ir para o Facebook"><AiOutlineFacebook size={39} color="#0D61A9" /></a>
+                        <a href="#" title="Ir para o Whatsapp" target="_blank"><FaWhatsapp size={36} color="#00B26E" /></a>
+                        <a href="https://www.instagram.com/intelnet.telecomoficial" target="_blank" title="Ir para o Instagram"><FaInstagram size={36} color="#D84178" /></a>
                     </div>
                 </div>
                 <div>
