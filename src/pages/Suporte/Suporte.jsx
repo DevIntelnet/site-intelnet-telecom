@@ -83,31 +83,37 @@ export default function Suporte() {
         {
             icon: <FiWifiOff color="#072d6c" size={22} className="icon-opt" />,
             title: 'Sem Conexão',
+            description: 'Estou sem conexão',
             link: "/"
         },
         {
             icon: <RiSignalWifi1Fill color="#072d6c" size={22} className="icon-opt" />,
             title: 'Lentidão',
+            description: 'Estou com lentidão',
             link: "/"
         },
         {
             icon: <LuWifi color="#072d6c" size={22} className="icon-opt" />,
             title: 'Instabilidade',
+            description: 'Estou com instabilidade',
             link: "/"
         },
         {
             icon: <GrLocation color="#072d6c" size={22} className="icon-opt" />,
             title: 'Transferência de Endereço',
+            description: 'Desejo realizar uma transferência de endereço',
             link: "/"
         },
         {
             icon: <MdOutlineAttachMoney color="#072d6c" size={22} className="icon-opt" />,
             title: 'Solicitar Desconto',
+            description: 'Gostaria de solicitar um desconto',
             link: "/"
         },
         {
             icon: <FiHelpCircle color="#072d6c" size={22} className="icon-opt" />,
             title: 'Ajuda',
+            description: 'Preciso de ajuda',
             link: "/"
         },
     ];
@@ -116,24 +122,42 @@ export default function Suporte() {
         {
             icon: <TbLockOff color="#072d6c" size={22} className="icon-opt" />,
             title: 'Sem Acesso',
+            description: 'Estou sem acesso aos canais',
             link: "/"
         },
         {
             icon: <MdOutlineDesktopWindows color="#072d6c" size={22} className="icon-opt" />,
             title: 'Instabilidade nos Canais',
+            description: 'Estou com instabilidade nos canais',
             link: "/"
         },
         {
             icon: <RiSettings3Fill color="#072d6c" size={22} className="icon-opt" />,
             title: 'Instalar Canais',
+            description: 'Desejo realizar a instalação dos canais',
             link: "/"
         },
         {
             icon: <FiHelpCircle color="#072d6c" size={22} className="icon-opt" />,
             title: 'Ajuda',
+            description: 'Preciso de ajuda com os canais',
             link: "/"
         },
     ];
+
+    const handleWhatsApp = (description) => {
+        if (!cliente || !cliente.pessoa) return;
+
+        const { pessoa } = cliente;
+        const nome = pessoa.nome || pessoa.fantasia;
+        const identificador = pessoa.cpf ? `CPF: ${pessoa.cpf}` : `CNPJ: ${pessoa.cnpj}`;
+        const message = `Olá, venho do site. Nome: ${nome}, ${identificador}, ${description}`;
+        const encodedMessage = encodeURIComponent(message);
+        const phoneNumber = "5584991819502";
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+        window.open(whatsappUrl, "_blank");
+    };
+
 
     return (
         <div className="area-cliente-pagina-interna">
@@ -166,28 +190,23 @@ export default function Suporte() {
                             </div>
 
                             <div className="list-opt-internet" style={{ display: optSelected ? "flex" : "none" }}>
-                                {opt_internet.map((opt, i) => {
-
-                                    return (
-                                        <a href="#" className="opt-int" key={i}>
-                                            {opt.icon}
-                                            <span>{opt.title}</span>
-                                        </a>
-                                    )
-                                })}
+                                {opt_internet.map((opt, i) => (
+                                    <a key={i} className="opt-int" onClick={() => handleWhatsApp(opt.description)} style={{ cursor: "pointer" }}>
+                                        {opt.icon}
+                                        <span>{opt.title}</span>
+                                    </a>
+                                ))}
                             </div>
 
                             <div className="list-opt-canais" style={{ display: !optSelected ? "flex" : "none" }}>
-                                {opt_canais.map((opt, i) => {
-
-                                    return (
-                                        <a href="#" className="opt-int" key={i}>
-                                            {opt.icon}
-                                            <span>{opt.title}</span>
-                                        </a>
-                                    )
-                                })}
+                                {opt_canais.map((opt, i) => (
+                                    <a key={i} className="opt-int" onClick={() => handleWhatsApp(opt.description)} style={{ cursor: "pointer" }}>
+                                        {opt.icon}
+                                        <span>{opt.title}</span>
+                                    </a>
+                                ))}
                             </div>
+
                         </div>
                     </div>
                 </>
