@@ -10,6 +10,7 @@ import { MdAttachMoney } from "react-icons/md";
 import { TbCircleArrowUpRightFilled } from "react-icons/tb";
 import { HiCheckCircle } from "react-icons/hi";
 import ModalAlerta from "../../components/Modal/ModalAlerta";
+import { FaAngleDoubleRight } from "react-icons/fa";
 
 export default function AreaCliente() {
     const navigate = useNavigate();
@@ -352,7 +353,7 @@ export default function AreaCliente() {
             <div className="cabecalho-area-cliente">
                 <div className="nome">Olá, {nomeExibido}</div>
                 {/* Botão de menu hambúrguer */}
-                <a style={{zIndex: 9999999, cursor: 'pointer'}} className="d-none-menu" onClick={() => setMenuOpen(!menuOpen)}>
+                <a style={{ zIndex: 9999999, cursor: 'pointer' }} className="d-none-menu" onClick={() => setMenuOpen(!menuOpen)}>
                     {menuOpen ? <FaTimes size={27} /> : <FaBars size={27} />}
                 </a>
 
@@ -367,7 +368,15 @@ export default function AreaCliente() {
             </div>
 
             <div className="faturas-section">
-                <h3 className="faturas-titulo">Minhas Faturas</h3>
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+                    <h3 className="faturas-titulo">Minhas Faturas</h3>
+                    <FaAngleDoubleRight
+                        size={24}
+                        color="#042c64"
+                        style={{ cursor: 'pointer' }}
+                        title="Role para ver mais"
+                    />
+                </div>
 
                 <div
                     className="faturas-campo-faturas"
@@ -441,7 +450,15 @@ export default function AreaCliente() {
             </div>
 
             <div className="planos-section">
-                <h3 className="planos-titulo">Meus Planos de Internet</h3>
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+                    <h3 className="planos-titulo">Meus Planos de Internet</h3>
+                    <FaAngleDoubleRight
+                        size={24}
+                        color="#FFF"
+                        style={{ cursor: 'pointer' }}
+                        title="Role para ver mais"
+                    />
+                </div>
 
                 <div
                     className="planos-campo-planos"
@@ -483,7 +500,15 @@ export default function AreaCliente() {
             </div>
 
             <div className="ordens-servicos-section">
-                <h3 className="ordens-servicos-titulo">Minhas Ordens de Serviço</h3>
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+                    <h3 className="ordens-servicos-titulo">Minhas Visitas Técnicas</h3>
+                    <FaAngleDoubleRight
+                        size={24}
+                        color="#042c64"
+                        style={{ cursor: 'pointer' }}
+                        title="Role para ver mais"
+                    />
+                </div>
 
                 <div
                     className="ordens-servicos-campo-ordens-servicos"

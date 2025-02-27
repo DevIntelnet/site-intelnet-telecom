@@ -278,7 +278,7 @@ export default function Home() {
                 <small><strong>Destalhes: </strong>{item.descricao != "" ? item.descricao : "Contate nosso suporte para saber mais."}</small>
                 <div className="icons-redirect">
                     <IoIosGlobe size={45} color={item.colorIcon} />
-                    <TbCircleArrowUpRightFilled size={45} color="#072d6c" title="Contatar o suporte" style={{ cursor: 'pointer' }} />
+                    <TbCircleArrowUpRightFilled size={45} color="#072d6c" title="Contatar o suporte" style={{ cursor: 'pointer' }} onClick={() => redirecionarParaWhatsAppPlanos(item)}/>
                 </div>
                 <div className="dados-sinal">
                     <div>
@@ -360,6 +360,7 @@ export default function Home() {
             backgroundImage: "/src/assets/plano7.jpg", // Caminho da imagem de fundo
             content:
                 <div className="planos">
+                    <h1>Nossos Planos</h1>
                     {/* Select para Ponto Comercial */}
                     <div className="busca-ponto-comercial">
                         <MdLocationOn size={24} color="#042c64" />
@@ -405,6 +406,11 @@ export default function Home() {
 
                     {/* Renderização dos planos filtrados */}
                     <div className="planos-encontrados">
+                        {filtraPlanos(planos).length == 0 && (
+                            <div className="informe-no-planos">
+                                <span>Nenhum plano encontrado para os filtros selecionados.</span>
+                            </div>
+                        )}
                         <div
                             className="campo-planos-encontrados"
                             ref={planosRef}
@@ -421,7 +427,7 @@ export default function Home() {
                                 </div>
                             ) : (
 
-                                filtraPlanos(planos).length > 0 ? (
+                                filtraPlanos(planos).length > 0 && (
                                     filtraPlanos(planos).map((item, i) => {
 
                                         return (
@@ -438,7 +444,7 @@ export default function Home() {
                                                     <TbCircleArrowUpRightFilled size={35} color="#072d6c" />
                                                 </div>
                                                 <div className="campo-descricao">
-                                                    <h1 style={{ color: item.colorIcon }}>{item.title}</h1>
+                                                    <h2 style={{ color: item.colorIcon }}>{item.title}</h2>
                                                     <h3>{item.subtitle}</h3>
                                                     <h5>{item.moreinfo}</h5>
                                                 </div>
@@ -457,8 +463,6 @@ export default function Home() {
                                             </div>
                                         )
                                     })
-                                ) : (
-                                    <p style={{ color: '#FFF', fontSize: 18 }}>Nenhum plano encontrado para os filtros selecionados.</p>
                                 )
 
                             )}
@@ -552,7 +556,7 @@ export default function Home() {
                 </a>
 
                 {/* Botão de menu hambúrguer (aparece só no mobile) */}
-                <a style={{zIndex: 9999999, cursor: 'pointer'}} className="d-none-menu" onClick={() => setMenuOpen(!menuOpen)}>
+                <a style={{ zIndex: 9999999, cursor: 'pointer' }} className="d-none-menu" onClick={() => setMenuOpen(!menuOpen)}>
                     {menuOpen ? <FaTimes size={27} /> : <FaBars size={27} />}
                 </a>
 

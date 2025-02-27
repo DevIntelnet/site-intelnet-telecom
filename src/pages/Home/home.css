@@ -170,6 +170,16 @@
     flex-direction: column;
 }
 
+.planos h1 {
+
+    text-align: center;
+
+    color: #FFF;
+    font-size: 38px;
+
+    padding: 10px 0;
+}
+
 .planos .busca-ponto-comercial {
 
     width: 85%;
@@ -211,6 +221,26 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.planos .planos-encontrados .informe-no-planos {
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.planos .planos-encontrados .informe-no-planos span {
+
+    text-align: center;
+    color: #FFF;
+
+    padding: 10px 15px;
+    background-color: #000000d0;
+
+    border-radius: 20px;
 }
 
 .planos .planos-encontrados .campo-planos-encontrados {
@@ -304,7 +334,7 @@
     padding: 15px 0;
 }
 
-.planos .planos-encontrados .campo-planos-encontrados .card-planos .campo-descricao h1 {
+.planos .planos-encontrados .campo-planos-encontrados .card-planos .campo-descricao h2 {
 
     text-align: center;
 }
