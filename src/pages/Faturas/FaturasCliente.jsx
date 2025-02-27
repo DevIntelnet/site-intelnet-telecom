@@ -206,8 +206,18 @@ export default function FaturasCliente() {
     }, [cliente]);
 
     const links = [
-        { title: "Perfil", link: "/meu-perfil" },
-        { title: "Área do Cliente", link: "/area-cliente" },
+        {
+            title: 'Suporte',
+            link: "/suporte",
+        },
+        { 
+            title: "Perfil", 
+            link: "/meu-perfil" 
+        },
+        { 
+            title: "Área do Cliente", 
+            link: "/area-cliente" 
+        },
     ];
 
     return (

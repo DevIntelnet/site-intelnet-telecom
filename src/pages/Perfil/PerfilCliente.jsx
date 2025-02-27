@@ -71,8 +71,18 @@ export default function PerfilCliente() {
     }
 
     const links = [
-        { title: 'Faturas', link: "/minhas-faturas" },
-        { title: 'Área do Cliente', link: "/area-cliente" },
+        {
+            title: 'Suporte',
+            link: "/suporte",
+        },
+        { 
+            title: 'Faturas', 
+            link: "/minhas-faturas" 
+        },
+        { 
+            title: 'Área do Cliente', 
+            link: "/area-cliente" 
+        },
     ];
 
     return (

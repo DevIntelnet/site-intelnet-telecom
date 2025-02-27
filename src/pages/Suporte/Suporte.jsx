@@ -75,8 +75,18 @@ export default function Suporte() {
     }, [cliente]);
 
     const links = [
-        { title: 'Faturas', link: "/minhas-faturas" },
-        { title: 'Área do Cliente', link: "/area-cliente" },
+        { 
+            title: 'Faturas', 
+            link: "/minhas-faturas" 
+        },
+        { 
+            title: "Perfil", 
+            link: "/meu-perfil" 
+        },
+        { 
+            title: 'Área do Cliente', 
+            link: "/area-cliente" 
+        },
     ];
 
     const opt_internet = [
