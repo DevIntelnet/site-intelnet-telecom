@@ -27,8 +27,8 @@ import withReactContent from 'sweetalert2-react-content';
 
 export default function Home() {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [username, setUsername] = useState("70246283408");
-    const [senha, setSenha] = useState("926284952");
+    const [username, setUsername] = useState("");
+    const [senha, setSenha] = useState("");
     const navigate = useNavigate();
     const [loginMessage, setLoginMessage] = useState("");
     const [loading, setLoading] = useState(false);
@@ -334,10 +334,10 @@ export default function Home() {
             title: 'Home',
             link: "/",
             hasBackground: true, // Define se esta seção terá background especial
-            backgroundImage: "/src/assets/plano1.jpg", // Caminho da imagem de fundo
+            backgroundImage: "/plano1.jpg", // Caminho da imagem de fundo
             content:
                 <div className="home">
-                    <img src="/src/assets/logo_new.png" alt="Logo Intelnet Telecom" />
+                    <img src="/logo_new.png" alt="Logo Intelnet Telecom" />
                     <div className="star-icon">
                         <div className="linha-icon-star"></div>
                         <FaStar color="#373435" className="icon" size={90} />
@@ -357,7 +357,7 @@ export default function Home() {
             title: 'Planos',
             link: "/",
             hasBackground: true, // Define se esta seção terá background especial
-            backgroundImage: "/src/assets/plano7.jpg", // Caminho da imagem de fundo
+            backgroundImage: "/plano7.jpg", // Caminho da imagem de fundo
             content:
                 <div className="planos">
                     <h1>Nossos Planos</h1>
@@ -490,7 +490,7 @@ export default function Home() {
             title: 'Área do Cliente',
             link: "/",
             hasBackground: true, // Define se esta seção terá background especial
-            backgroundImage: "/src/assets/plano2.jpg", // Caminho da imagem de fundo
+            backgroundImage: "/plano2.jpg", // Caminho da imagem de fundo
             content: (
                 <div className="area-cliente">
                     <h1>Acessar meu Cadastro</h1>
@@ -552,7 +552,7 @@ export default function Home() {
         <div className="container-home">
             <div className="cabecalho">
                 <a href="/" className="logo-intel">
-                    <img src="/src/assets/logo_new.png" alt="Logo Intelnet" />
+                    <img src="/logo_new.png" alt="Logo Intelnet" />
                 </a>
 
                 {/* Botão de menu hambúrguer (aparece só no mobile) */}

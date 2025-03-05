@@ -277,7 +277,7 @@ h2 {
     align-items: center;
     flex-direction: column;
 
-    background-image: url("/src/assets/plano7.jpg"), linear-gradient(rgba(239, 239, 239, 0), rgba(239, 239, 239, 0));
+    background-image: url("/plano7.jpg"), linear-gradient(rgba(239, 239, 239, 0), rgba(239, 239, 239, 0));
     background-size: cover;
     background-blend-mode: overlay;
     background-position: center;

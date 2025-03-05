@@ -224,7 +224,7 @@ export default function RealizarPagamento() {
 
                     {boleto && boleto.entryDate !== null && (
                         <div className="campo-logo-pix">
-                            <img src="/src/assets/logo-pix.png" className="logo-pix" />
+                            <img src="/logo-pix.png" className="logo-pix" />
                         </div>
                     )}
 
