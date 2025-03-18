@@ -197,6 +197,9 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+
+    width: 220px;
+    text-align: center;
 }
 
 .campo-resumo-pagamento .campo-resumo-pag .btn-copiar-pix:hover {
@@ -213,6 +216,10 @@
     text-decoration: none;
 
     margin-top: 10px;
+    cursor: pointer;
+
+    width: 220px;
+    text-align: center;
 }
 
 .campo-resumo-pagamento .campo-resumo-pag .btn-baixar-boleto:hover {

@@ -21,6 +21,9 @@ export default function RealizarPagamento() {
     const [nomeExibido, setNomeExibido] = useState("");
     const [boleto, setBoleto] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [clienteNome, setClienteNome] = useState("");
+
 
     const MySwal = withReactContent(Swal.mixin({
         buttonsStyling: false,
@@ -51,6 +54,8 @@ export default function RealizarPagamento() {
 
                 if (response.data.error === 0) {
                     setCliente(response.data.dados);
+                    const nome = response.data.dados.pessoa.fantasia || response.data.dados.pessoa.nome;
+                    setClienteNome(nome);
                 } else {
                     setError("Erro ao carregar os dados.");
                 }
@@ -112,6 +117,45 @@ export default function RealizarPagamento() {
 
         return () => window.removeEventListener("resize", atualizarNomeExibido);
     }, [cliente]);
+
+    const handleDownloadBoleto = async () => {
+        if (!boleto?.id || !clienteNome) {
+            alert("Erro ao obter os dados do boleto.");
+            return;
+        }
+
+        setIsLoading(true);
+
+        try {
+            const id_cliente = localStorage.getItem("id_cliente");
+            const token = localStorage.getItem("token");
+
+            const response = await api.get(`/api/boletos/imprimir/${id_cliente}/${boleto.id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+                responseType: "blob",
+            });
+
+            // Criar um link para download
+            const blob = new Blob([response.data], { type: "application/pdf" });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+
+            // Substituir espaços por _ e remover caracteres especiais no nome do cliente
+            const nomeFormatado = clienteNome.replace(/\s+/g, "_").replace(/[^\w\s]/gi, "");
+
+            link.href = url;
+            link.setAttribute("download", `Fatura-${nomeFormatado}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error("Erro ao baixar o boleto:", error);
+            alert("Erro ao baixar o boleto. Tente novamente.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
     const links = [
         {
@@ -177,7 +221,7 @@ export default function RealizarPagamento() {
         <div className="area-cliente-pagina-interna">
             <div className="cabecalho-area-cliente">
                 <div className="nome">Olá, {nomeExibido}</div>
-                <a style={{zIndex: 9999999, cursor: 'pointer'}} className="d-none-menu" onClick={() => setMenuOpen(!menuOpen)}>
+                <a style={{ zIndex: 9999999, cursor: 'pointer' }} className="d-none-menu" onClick={() => setMenuOpen(!menuOpen)}>
                     {menuOpen ? <FaTimes size={27} /> : <FaBars size={27} />}
                 </a>
                 <nav className={`links ${menuOpen ? "open" : ""}`}>
@@ -258,7 +302,16 @@ export default function RealizarPagamento() {
                             >
                                 COPIAR CÓDIGO PIX
                             </button>
-                            <a href={`/boletos/imprimir/${boleto.cliente_id_web}/${boleto.id}`} target="_blank" className="btn-baixar-boleto">BAIXAR BOLETO</a>
+                            <a className="btn-baixar-boleto" onClick={handleDownloadBoleto} disabled={isLoading}>
+                                {isLoading ? (
+                                    <>
+                                        <i className="fa fa-spinner fa-spin"></i> Baixando...
+                                    </>
+                                ) : (
+                                    "BAIXAR BOLETO"
+                                )}
+                            </a>
+
                         </>
                     }
                 </div>
