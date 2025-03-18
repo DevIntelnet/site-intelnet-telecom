@@ -22,6 +22,14 @@ export default function FaturasCliente() {
     const [numFatSincronizadas, setNumFatSincronizadas] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    function formatDate(data, formato) {
+        if (formato == 'pt-br') {
+            return (data.substr(0, 10).split('-').reverse().join('/'));
+        } else {
+            return (data.substr(0, 10).split('/').reverse().join('-'));
+        }
+    }
+
     // Função para determinar o texto do status
     const getStatusTextFatura = (item) => {
         const hoje = new Date();
@@ -284,8 +292,8 @@ export default function FaturasCliente() {
                                                 )}
 
                                             </div>
-                                            <p><strong>Vencimento:</strong> <small style={{ color: '#373435', fontWeight: 'bold' }}>{dataVencimento.toLocaleDateString('pt-BR')}</small></p>
-                                            <p><strong>Valor:</strong> <span style={{ color: '#373435', fontWeight: 'bold' }}>{fatura.reg_valor_total ? `R$ ${fatura.reg_valor_total.toFixed(2)}` : "N/A"}</span></p>
+                                            <p><strong>Vencimento:</strong> <small style={{ color: '#373435', fontWeight: 'bold' }}>{formatDate(fatura.reg_vencimento, 'pt-br')}</small></p>
+                                            <p><strong>Valor:</strong> <span style={{ color: '#373435', fontWeight: 'bold' }}>{fatura.entryDate ? `R$ ${fatura.reg_valor_pos_registro}` : `R$ ${fatura.reg_valor_total.toFixed(2)}`}</span></p>
                                             {fatura.descricao && <p><strong>Descrição:</strong> <small style={{ color: '#373435', fontWeight: 'bold' }}>{fatura.descricao}</small></p>}
                                         </div>
                                         <div className="actions-fatura">

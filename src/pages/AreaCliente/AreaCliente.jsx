@@ -26,6 +26,14 @@ export default function AreaCliente() {
     const [isDragging, setIsDragging] = useState(false); // Estado para controlar o arrasto
     const [startX, setStartX] = useState(0); // Posição inicial do cursor
     const [scrollLeft, setScrollLeft] = useState(0); // Posição inicial da rolagem
+    
+    function formatDate(data, formato) {
+        if (formato == 'pt-br') {
+            return (data.substr(0, 10).split('-').reverse().join('/'));
+        } else {
+            return (data.substr(0, 10).split('/').reverse().join('-'));
+        }
+    }
 
     const handleMouseDown = (event) => {
         const container = planosRef.current;
@@ -419,8 +427,8 @@ export default function AreaCliente() {
                                             }
                                         </div>
                                         <div className="dados-fatura">
-                                            <h5>Vencimento: {dataVencimento.toLocaleDateString('pt-BR')}</h5>
-                                            <h4>Valor - {fatura.reg_valor_total ? `R$ ${fatura.reg_valor_total.toFixed(2)}` : "N/A"}</h4>
+                                            <h5>Vencimento: {formatDate(fatura.reg_vencimento, 'pt-br')}</h5>
+                                            <h4>Valor - {fatura.entryDate ? `R$ ${fatura.reg_valor_pos_registro}` : `R$ ${fatura.reg_valor_total.toFixed(2)}`}</h4>
                                         </div>
                                         <div className="status-fatura">
                                             {(fatura.reg_baixa == 1 || fatura.reg_baixa == 2) && (

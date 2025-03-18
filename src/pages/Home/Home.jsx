@@ -21,6 +21,8 @@ import { RiWirelessChargingFill } from "react-icons/ri";
 import { FaLayerGroup } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
+import { FaChevronDown } from "react-icons/fa";
+import { FaChevronUp } from "react-icons/fa";
 
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -278,7 +280,7 @@ export default function Home() {
                 <small><strong>Destalhes: </strong>{item.descricao != "" ? item.descricao : "Contate nosso suporte para saber mais."}</small>
                 <div className="icons-redirect">
                     <IoIosGlobe size={45} color={item.colorIcon} />
-                    <TbCircleArrowUpRightFilled size={45} color="#072d6c" title="Contatar o suporte" style={{ cursor: 'pointer' }} onClick={() => redirecionarParaWhatsAppPlanos(item)}/>
+                    <TbCircleArrowUpRightFilled size={45} color="#072d6c" title="Contatar o suporte" style={{ cursor: 'pointer' }} onClick={() => redirecionarParaWhatsAppPlanos(item)} />
                 </div>
                 <div className="dados-sinal">
                     <div>
@@ -329,6 +331,15 @@ export default function Home() {
         window.open(urlWhatsApp, "_blank");
     };
 
+    const redirectToWhatsAppHome = () => {
+        const numero = "5584991819502";
+        const mensagem = encodeURIComponent("Olá, gostaria de informações sobre os planos. Poderia me ajudar?");
+
+        const url = `https://wa.me/${numero}?text=${mensagem}`;
+
+        window.open(url, "_blank");
+    };
+
     const informacoes = [
         {
             title: 'Home',
@@ -347,9 +358,13 @@ export default function Home() {
                     <h4>Intelnet Nova Cruz - (84) 99181 9502 - @intelnet.telecomoficial</h4>
                     <div className="linha-social">
                         <a href="https://www.facebook.com/intelnet.novacruz" target="_blank" title="Ir para o Facebook"><AiOutlineFacebook size={39} color="#0D61A9" /></a>
-                        <a href="#" title="Ir para o Whatsapp" target="_blank"><FaWhatsapp size={36} color="#00B26E" /></a>
+                        <a href="#" title="Ir para o Whatsapp" onClick={() => redirectToWhatsAppHome()}><FaWhatsapp size={36} color="#00B26E" /></a>
                         <a href="https://www.instagram.com/intelnet.telecomoficial" target="_blank" title="Ir para o Instagram"><FaInstagram size={36} color="#D84178" /></a>
                     </div>
+                    <a href="#section3" className="informe-puxar-boleto">
+                        <h4>Puxe já seu boleto clicando aqui!</h4>
+                        <FaChevronDown size={25}/>
+                    </a>
                 </div>
             ,
         },
@@ -543,6 +558,10 @@ export default function Home() {
 
                         {loginMessage && <small><strong>{loginMessage}</strong></small>}
                     </form>
+                    <div className="informe-puxar-boleto">
+                        <FaChevronUp size={25}/>
+                        <h4>Insira os dados acima e verifique suas faturas!</h4>
+                    </div>
                 </div>
             ),
         },

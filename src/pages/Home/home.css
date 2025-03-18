@@ -142,6 +142,8 @@
 
     padding: 5px 10px;
     border-radius: 12px;
+
+    margin: 5px 0;
 }
 
 .home .linha-social a {
@@ -158,6 +160,17 @@
 
     padding: 8px 0;
     text-align: center;
+}
+
+.home .informe-puxar-boleto {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    text-decoration: none;
+    color: #072d6c;
 }
 
 .planos {
@@ -687,6 +700,23 @@
     color: #6a81a6;
 }
 
+.area-cliente .informe-puxar-boleto {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    text-decoration: none;
+    color: #373435;
+}
+
+.area-cliente .informe-puxar-boleto h4 {
+
+    margin-top: 5px;
+    text-align: center;
+}
+
 .menu {
     display: flex;
     gap: 20px;
@@ -773,7 +803,12 @@
 
     .home {
 
-        width: 60%;
+        width: 80%;
+    }
+
+    .sobre-a-empresa {
+
+        width: 80%;
     }
 
     .d-none-menu {

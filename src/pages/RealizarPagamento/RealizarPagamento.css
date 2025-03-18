@@ -203,6 +203,22 @@
     background-color: #0056b3;
 }
 
+.campo-resumo-pagamento .campo-resumo-pag .btn-baixar-boleto {
+    background-color: #ed3237;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    text-decoration: none;
+
+    margin-top: 10px;
+}
+
+.campo-resumo-pagamento .campo-resumo-pag .btn-baixar-boleto:hover {
+    background-color: #8e1e21;
+}
+
 .campo-resumo-pagamento .campo-resumo-pag .btn-pagar a:link,
 .campo-resumo-pagamento .campo-resumo-pag .btn-pagar a:visited {
 

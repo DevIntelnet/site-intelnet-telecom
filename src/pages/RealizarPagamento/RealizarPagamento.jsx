@@ -251,12 +251,15 @@ export default function RealizarPagamento() {
                             <a href="#">Pagar</a>
                         </div>
                         :
-                        <button
-                            className="btn-copiar-pix"
-                            onClick={() => copyToClipboard(boleto.qrCodePix)}
-                        >
-                            COPIAR CÓDIGO PIX
-                        </button>
+                        <>
+                            <button
+                                className="btn-copiar-pix"
+                                onClick={() => copyToClipboard(boleto.qrCodePix)}
+                            >
+                                COPIAR CÓDIGO PIX
+                            </button>
+                            <a href={`/boletos/imprimir/${boleto.cliente_id_web}/${boleto.id}`} target="_blank" className="btn-baixar-boleto">BAIXAR BOLETO</a>
+                        </>
                     }
                 </div>
             </div>
