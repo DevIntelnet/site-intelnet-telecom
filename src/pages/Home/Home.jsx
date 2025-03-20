@@ -498,7 +498,7 @@ export default function Home() {
                         <FaStar color="#072d6c" className="icon" size={90} />
                         <div className="linha-icon-star"></div>
                     </div>
-                    <h4>Fundada em 2004, a INTELNET é uma empresa de Provivento de Acesso a Redes de Telecomunicações, nascida em Nova Cruz/RN, que se consolidou oferecendo segurança, qualidade e alta tecnologia no trânsito de dados durante as 24 horas do dia. Possui diferentes planos visando adequação a necessidade real do cliente e não abre mão de preços competitivos. Nossa equipe é composta por Técnicos e Engenheiros com as mais diversas certificações em tecnologia da informação, capaz de projetar e implementar redes de telecomunicações, sistemas de vídeo ou telefônicos baseados em IP. Mais do que um Provedor de Internet a INTELNET possui também um completo portifólio, capaz de atender clientes exigentes que necessitem de infraestrutura modernas e de qualidade. A INTELNET é uma empresa comprometida com o cliente e por esta razão, está constantemente evoluindo em infra-estrutura, equipamentos e talentos.</h4>
+                    <h4>Fundada em 2004, a INTELNET é uma empresa de Provimento de Acesso a Redes de Telecomunicações, nascida em Nova Cruz/RN, que se consolidou oferecendo segurança, qualidade e alta tecnologia no trânsito de dados durante as 24 horas do dia. Possui diferentes planos visando adequação a necessidade real do cliente e não abre mão de preços competitivos. Nossa equipe é composta por Técnicos e Engenheiros com as mais diversas certificações em tecnologia da informação, capaz de projetar e implementar redes de telecomunicações, sistemas de vídeo ou telefônicos baseados em IP. Mais do que um Provedor de Internet a INTELNET possui também um completo portifólio, capaz de atender clientes exigentes que necessitem de infraestrutura modernas e de qualidade. A INTELNET é uma empresa comprometida com o cliente e por esta razão, está constantemente evoluindo em infra-estrutura, equipamentos e talentos.</h4>
                 </div>,
         },
         {
@@ -629,7 +629,7 @@ export default function Home() {
             <div className="rodape">
                 <div>
                     <h4>LOCALIZAÇÃO</h4>
-                    <p>Av. Assid Chateaubriand,1082 <br /> São Sebastião, Nova Cruz/RN <br /> Cep: 59215-000</p>
+                    <p>Av. Assis Chateaubriand,1082 <br /> São Sebastião, Nova Cruz/RN <br /> Cep: 59215-000</p>
                 </div>
                 <div>
                     <h4>REDES SOCIAIS</h4>
