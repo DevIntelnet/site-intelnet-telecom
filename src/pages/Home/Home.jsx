@@ -635,7 +635,7 @@ export default function Home() {
                     <h4>REDES SOCIAIS</h4>
                     <div className="linha-social">
                         <a href="https://www.facebook.com/intelnet.novacruz" target="_blank" title="Ir para o Facebook"><AiOutlineFacebook size={39} color="#0D61A9" /></a>
-                        <a href="#" title="Ir para o Whatsapp" target="_blank"><FaWhatsapp size={36} color="#00B26E" /></a>
+                        <a href="#" title="Ir para o Whatsapp" target="_blank" onClick={() => redirectToWhatsAppHome()}><FaWhatsapp size={36} color="#00B26E" /></a>
                         <a href="https://www.instagram.com/intelnet.telecomoficial" target="_blank" title="Ir para o Instagram"><FaInstagram size={36} color="#D84178" /></a>
                     </div>
                 </div>
